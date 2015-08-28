@@ -1,8 +1,8 @@
 #Logg 
 
 ###Fredag 21 Augusti -15
-Skapade den här loggboken, Jocke skapade ett github repository och jag skapade ett githubkonto. Vi har börjat leta efter artiklar om vår frågeställning. 
+Vi påbörjade loggboken samt skapade ett github-repository för att kunna dela allt som hör till gymnasiearbetet.
+Vi har börjat leta efter artiklar om vår frågeställning. 
 
-###Måndag 24 Augusti -15
-Adrian är med!!!
-
+###Fredag 28 Augusti -15
+Vi skrev en översiktlig planering.
