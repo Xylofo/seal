@@ -1,12 +1,16 @@
 #include <cstdio>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
 long long INF = 1e18;
 
+vector<long long> save;
+
 //Funktion som returnerar komplexiteten av ett heltal
 long long getComplexity(int n) {
+	if(save[n] != -1) return save[n];
 	if(n == 1) return 1;
 	else {
 		long long minPlus = INF;
@@ -17,6 +21,7 @@ long long getComplexity(int n) {
 		for(int i = 2; i < n-1; i++) {
 			if(n%i == 0) minMult = min(minMult, getComplexity(i)+getComplexity(n/i));
 		}
+		save[n] = min(minPlus, minMult);
 		return min(minPlus, minMult);
 	}
 
@@ -25,7 +30,9 @@ long long getComplexity(int n) {
 int main(){
 	int n;
 	cin >> n;
-	for(int i = 1; i <= n; i++) cout << getComplexity(i) << endl;
+	save.resize(n+1, -1);
+	//for(int i = 1; i <= n; i++) cout << getComplexity(i) << endl;
+	cout << getComplexity(n) << endl;
 	return 0;
 }
 
