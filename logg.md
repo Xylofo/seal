@@ -20,7 +20,7 @@ Vi skrev en översiktlig planering.
 
 Heldag, mycket arbete har gjorts:
 * Hela gruppen lyssnade på föreläsning om gymnasiearbetet
-* Lisa har lyckats skriva en $\theta(N^2)$ algoritm för att generera tal
+* Lisa har lyckats skriva en O(N^2) algoritm för att generera tal
 * Vi har lyckats plotta datan genererad av lisas program
 * Adrian har arbetat arbetsplan och veckovis planering
 * Joakim har läst igenom artiklar för att få en större insikt i ämnesområdet
