@@ -6,6 +6,10 @@
 \usepackage[english,swedish]{babel}
 
 % Useful utilities
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{microtype}
 \usepackage{cleveref}
@@ -15,7 +19,25 @@
 
 \pgfplotsset{compat=1.10}
 
-\title{Rapport}
+% \newcommand{\C}[1]{\Vert #1 \Vert}
+\newcommand{\C}[1]{\frak C \left( #1 \right)}
+
+
+%====================  style theorems  ======================================
+
+\newtheorem{theorem}{Sats}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{conjecture}{Förmodan}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Korollarium}
+\newtheorem{statement}[theorem]{Påstående}
+\newtheorem{problem}{Problem}
+\newtheorem{fact}[theorem]{Faktum}
+
+%====================  Document starts here  ======================================
+
+\title{En studie av heltalens komplexitet}
 \author{Lisa Vällfors \and Adrian Becedas \and Joakim Blikstad}
 
 \begin{document}
@@ -32,6 +54,13 @@
 \newpage
 
 \section{Inledning}
+
+\begin{definition}
+   Vi benämner komplexiteten av ett positivt heltal $n$ som det minimala
+   antalet $1$:or som krävs för att skriva $n$ med hjälp av addition,
+   subtraktion och parenteser. Vi låter även $\C{n}$ beteckna komplexiteten av
+   $n$. 
+\end{definition}
 
 \subsection{Bakgrund}
 
