@@ -1,4 +1,4 @@
-\documentclass[a4paperi,titlepage,onesided,draft]{article}
+\documentclass[a4paper,titlepage,draft]{article}
 
 % Swedish support
 \usepackage[utf8]{inputenc}
@@ -12,11 +12,15 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{microtype}
+\usepackage{hyperref}
 \usepackage{cleveref}
 \usepackage{siunitx}
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usepackage{mathtools}
+\usepackage{natbib}
+
+\bibpunct{[}{]}{,}{n}{}{;}
 
 \pgfplotsset{compat=1.10}
 
@@ -74,12 +78,15 @@
 
     \subsection{Övre gräns}
 
+    I detta avsnitt presenterar vi den övre gränsen upptäckt av J. Arias de
+    Reyna~\citep{spansk}.
     \begin{definition}
         Vi definierar funktionen $A:\N\to\N$ på följande sätt:
         $$ A(n) = \left\{ \begin{matrix*}[l] 1 & \text{om } n=1 \\ 1+A(n-1) & \text{om $n$ är primtal} \\ \sum_{i=1}^kA(p_i) & \text{om } n=p_1p_2 \ldots p_k \end{matrix*} \right. $$
     \end{definition}
 
-    Man ser att $A(n)\ge\C{n}$ då man alltid kan konstruera tal med funktionen~$A$. 
+    Man ser att $A(n)\ge\C{n}$ då man alltid kan konstruera tal med
+    funktionen~$A$. Värt att nämna är att det existerar $n$ där $A(n)\neq\C{n}$.
     Vi bevisar en övre gräns på $A(n)$ i syftet att få en övre gräns på $\C{n}$.
 
     \begin{lemma}
@@ -112,9 +119,14 @@
         bevisat.
     \end{proof}
 
-    
+    Beviset ger alltså att $\C{n}\le A(n)\le 3\log_2 n$ för alla $n\ge2$.
+
 
 \section{Algoritmer för att generera sekvensen}
+
+\bibliography{bib}{}
+\bibliographystyle{unsrtnat}
+
 
 \end{document}
 
