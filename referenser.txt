@@ -1,1 +1,2 @@
 OEIS, massor andra länkar: http://oeis.org/A005245
+Bevis på spanska, http://www.usc.es/dmle/pdf/GACETARSME_2000_03_2_03.pdf
