@@ -1,4 +1,4 @@
-\documentclass[a4paperi,titlepage,onesided,draft]{article}
+\documentclass[a4paper,titlepage,draft]{article}
 
 % Swedish support
 \usepackage[utf8]{inputenc}
@@ -6,16 +6,45 @@
 \usepackage[english,swedish]{babel}
 
 % Useful utilities
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{microtype}
+\usepackage{hyperref}
 \usepackage{cleveref}
 \usepackage{siunitx}
 \usepackage{tikz}
 \usepackage{pgfplots}
+\usepackage{mathtools}
+\usepackage{natbib}
+
+\bibpunct{[}{]}{,}{n}{}{;}
 
 \pgfplotsset{compat=1.10}
 
-\title{Rapport}
+%====================  defined macros  ======================================
+
+% \newcommand{\C}[1]{\Vert #1 \Vert}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}[1]{\mathfrak C \left( #1 \right)}
+
+%====================  style theorems  ======================================
+
+\newtheorem{theorem}{Sats}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{conjecture}{Förmodan}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Korollarium}
+\newtheorem{statement}{Påstående}
+\newtheorem{problem}{Problem}
+\newtheorem{fact}{Faktum}
+
+%====================  Document starts here  ======================================
+
+\title{En studie av heltalens komplexitet}
 \author{Lisa Vällfors \and Adrian Becedas \and Joakim Blikstad}
 
 \begin{document}
@@ -33,9 +62,16 @@
 
 \section{Inledning}
 
-\subsection{Bakgrund}
+    \begin{definition}
+       Vi benämner komplexiteten av ett positivt heltal $n$ som det minimala
+       antalet $1$:or som krävs för att skriva $n$ med hjälp av addition,
+       subtraktion och parenteser. Vi låter även $\C{n}$ beteckna komplexiteten av
+       $n$. 
+    \end{definition}
 
-\subsection{Frågeställningar}
+    \subsection{Bakgrund}
+
+    \subsection{Frågeställningar}
 
 
 \section{Analys}
@@ -59,7 +95,57 @@ För att generera data att undersöka, söks en algoritm för att beräkna kompl
 
 \subsection{En enkel algoritm}
 
-En första 
+	En första 
+    \subsection{Övre gräns}
+
+    I detta avsnitt presenterar vi den övre gränsen upptäckt av J. Arias de
+    Reyna~\citep{spansk}.
+    \begin{definition}
+        Vi definierar funktionen $A:\N\to\N$ på följande sätt:
+        $$ A(n) = \left\{ \begin{matrix*}[l] 1 & \text{om } n=1 \\ 1+A(n-1) & \text{om $n$ är primtal} \\ \sum_{i=1}^kA(p_i) & \text{om } n=p_1p_2 \ldots p_k \end{matrix*} \right. $$
+    \end{definition}
+
+    Man ser att $A(n)\ge\C{n}$ då man alltid kan konstruera tal med
+    funktionen~$A$. Värt att nämna är att det existerar $n$ där $A(n)\neq\C{n}$.
+    Vi bevisar en övre gräns på $A(n)$ i syftet att få en övre gräns på $\C{n}$.
+
+    \begin{lemma}
+        $A(n)\le 3 \log_2{n}$ \quad för alla $n\ge2$
+        \label{lemma:adrian}
+    \end{lemma}
+    \begin{proof}
+        Vi utför stark induktion på $n$. Basfallet $n=2$ ger:
+        \begin{align*}
+            VL &=A(2)=1+A(1)=2\\
+            HL &= 3 \log_2{2}=3 
+        \end{align*}
+        Alltså $VL \le HL$ som vi ville.
+        Nu antar vi att \cref{lemma:adrian} gäller för alla $n \le k$. Vi vill
+        visa att den även gäller för $n=k+1$.
+        Vi har två fall, då $k+1$ är primtal och då det är sammansatt.
+
+        $k+1$ är primtal ger enligt induktionsantagandet (notera $k$ är jämnt
+        då $k+1$ är ett primtal $\ge3$):
+        $$A(k+1) = 1 + A(k) = 1+2+A\left(\frac{k}{2}\right) \le 3 + 3 \log_2\frac{k}{2}$$
+        Genom att använda identiteten \,$\log \frac{a}{b}=\log a -\log b$\, fås:
+        $$ 3 + 3 \log_2\frac{k}{2} = 3 + 3\log_2 k - 3\log_2 2 = 3\log_2 k < 3\log_2 (k+1)$$
+        Vilket ger att $A(k+1)\le 3\log_2 (k+1)$ om $k+1$ är ett primtal.
+
+        Om $k+1$ är sammansatt kan vi skriva $k+1 = ab$ för heltal $a,b \ge 2$.
+        Vi får då enligt induktionsantagandet:
+        $$A(k+1) = A(a)+A(b) \le 3(\log_2a + \log_2b) = 3\log_2 ab = 3\log_2
+        (k+1)$$ Alltså gäller även $A(k+1) \le 3\log_2 (k+1)$ om $k+1$ är
+        sammansatt. Enligt induktionsprincipen är alltså \cref{lemma:adrian} nu
+        bevisat.
+    \end{proof}
+
+    Beviset ger alltså att $\C{n}\le A(n)\le 3\log_2 n$ för alla $n\ge2$.
+
+
+\section{Algoritmer för att generera sekvensen}
+
+\bibliography{bib}{}
+\bibliographystyle{unsrtnat}
 
 \end{document}
 

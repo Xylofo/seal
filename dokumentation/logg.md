@@ -25,3 +25,4 @@ Heldag, mycket arbete har gjorts:
 * Adrian har jobbat med arbetsplanen och en veckovis planering
 * Joakim har läst igenom artiklar för att få en större insikt i ämnesområdet
 * Joakim har börjat skapa struktur för rapporten
+* Vi har börjat skriva lite i rapporten
