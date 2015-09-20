@@ -120,8 +120,32 @@
         bevisat.
     \end{proof}
 
-    Beviset ger alltså att $\C{n}\le A(n)\le 3\log_2 n$ för alla $n\ge2$.
+    Beviset ger alltså att $\C{n}\le A(n)\le 3\log_2 n$ för alla $n\ge2$. Denna
+    gräns är dock inte särskilt bra, men ingen bättre gräns har hittats.
 
+    \subsection{Undre gräns}
+
+    Att bevisa en stark undre gräns till $\C{n}$ är något svårare.
+    Idén är att man låter $M_m$ vara det största heltalet som har komplexitet m.
+    Detta betyder att $\C{M_m} = m$ och att för alla $k > M_m$ så är $\C{k}>m$.
+    Med induktion kan man bevisa den slutna formeln (för $n>1$):
+    $$ M_n = \left\{ \begin{matrix*}[l] 3^k & \text{om } n=3k \\
+                             4\cdot3^{k-1} & \text{om } n=3k+1 \\
+                                 2\cdot3^k & \text{om } n=3k+2 \end{matrix*}
+            \right.$$
+    Man låter då funktionen $B$ vara följande:
+    $$ B(n) = \left\{ \begin{matrix*}[l] 3k & \text{om } n\in[3^k,4\cdot3^{k-1}) \\
+                                       3k+1 & \text{om } n\in[4\cdot3^{k-1},2\cdot3^k) \\
+                                       3k+2 & \text{om } n\in[2\cdot3^k,3^{k+1}) \end{matrix*}
+            \right.$$
+    Enligt ovanstående är $B(n)\le\C{n}$.
+    \begin{lemma}
+        $B(n)\ge 3\log_3 n$ \quad för alla $n\ge1$
+    \end{lemma}
+    \begin{proof}
+       Om man falluppdelar för att $n$ ligger i respektive av de tre grupperna
+       får man enkelt fram att lemmat gäller.
+    \end{proof}
 
 
 
