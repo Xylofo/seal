@@ -18,10 +18,11 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usepackage{mathtools}
-\usepackage{natbib}
+%\usepackage{natbib}
+\usepackage{algorithm} 
 \usepackage{algpseudocode}
 
-\bibpunct{[}{]}{,}{n}{}{;}
+%\bibpunct{[}{]}{,}{n}{}{;}
 
 \pgfplotsset{compat=1.10}
 
@@ -34,11 +35,12 @@
 %====================  style theorems  ======================================
 
 \newtheorem{theorem}{Sats}
-\newtheorem{definition}{Definition}
 \newtheorem{lemma}{Lemma}
 \newtheorem{conjecture}{Förmodan}
 \newtheorem{proposition}{Proposition}
 \newtheorem{corollary}{Korollarium}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
 \newtheorem{statement}{Påstående}
 \newtheorem{problem}{Problem}
 \newtheorem{fact}{Faktum}
@@ -73,6 +75,30 @@
     \subsection{Bakgrund}
 
     \subsection{Frågeställningar}
+        
+        \begin{itemize}
+            \item Finns det övre och undre gränser och hur tajta är dessa?
+            \item Kan man få tajtare gränser för specifika tal, alternativt få
+                en explicit formel?
+                \begin{itemize}
+                    \item kvadrater
+                    \item primtal
+                    \item 2 potenser
+                    \item 3 potenser
+                    \item andra potenser
+                    \item triangeltal
+                    \item fibonaccital
+                \end{itemize}
+            \item Hur kan man bäst generera talen, vad är bästa tidskomplexitet
+                man kan uppnå?
+            \item Hur fördelar sig $\frac{\C{n}}{\ln{n}}$?
+            \item Kommer sekvensen ändras om man tillåter fler operationer
+                utöver addition och multiplication?
+                \begin{itemize}
+                    \item subtraktion 
+                    \item exponensiering
+                \end{itemize}
+        \end{itemize}
 
 
 \section{Analys}
@@ -80,7 +106,7 @@
     \subsection{Övre gräns}
 
     I detta avsnitt presenterar vi den övre gränsen upptäckt av J. Arias de
-    Reyna~\citep{spansk}.
+    Reyna~\cite{spansk}.
     \begin{definition}
         Vi definierar funktionen $A:\N\to\N$ på följande sätt:
         $$ A(n) = \left\{ \begin{matrix*}[l] 1 & \text{om } n=1 \\ 1+A(n-1) & \text{om $n$ är primtal} \\ \sum_{i=1}^kA(p_i) & \text{om } n=p_1p_2 \ldots p_k \end{matrix*} \right. $$
@@ -153,67 +179,88 @@
 
 http://arxiv.org/pdf/1404.2183v2.pdf
 
-För att generera data att undersöka, söks en algoritm för att beräkna komplexiteten av ett tal.
+För att generera data att undersöka, söks en algoritm för att beräkna
+komplexiteten av ett tal.
 
 \subsection{En enkel algoritm}
 
-För att lösa frågan börjar vi baklänges, och ställer oss frågan: vilken ska den sista operationen vara?
-Det är ju givet att representationen antingen kommer kunna sammanfattas som $n = a\cdot b$ eller $n = a+b$.
-Vi vill därför för både
+För att lösa frågan börjar vi baklänges, och ställer oss frågan: vilken ska den
+sista operationen vara?  Det är ju givet att representationen antingen kommer
+kunna sammanfattas som $n = a\cdot b$ eller $n = a+b$.  Vi vill därför för både
 blabla rot, halv
 
-\begin{algorithmic}[1]
-\Procedure{complexity}{$n$}\Comment{Returnerar komplexiteten av n}
-\If{$n = 1$}
-\State \textbf{return} $1$
-\EndIf
-\State  $ans\gets \infty$
-\For{$i\gets 1, n/2$}
-\State $ans\gets \min(ans, \textsc{complexity}(i)+\textsc{complexity}(n-i))$
-\EndFor
-\For{$i\gets 2, \sqrt{n}$}
-\If{$n\mod i = 0$}
-\State $ans\gets \min(ans, \textsc{complexity}(i)+\textsc{complexity}(n/i))$
-\EndIf
-\EndFor
+\begin{algorithm}[H]
+    \caption{$O(N^N)$}
+    \begin{algorithmic}[1]
+        \Procedure{complexity}{$n$}\Comment{Returnerar komplexiteten av n}
+            \If{$n = 1$}
+                \State \textbf{return} $1$
+            \EndIf
+            \State  $ans\gets \infty$
+            \For{$i\gets 1, n/2$}
+                \State $ans\gets \min(ans, \textsc{complexity}(i)+\textsc{complexity}(n-i))$
+            \EndFor
+            \For{$i\gets 2, \sqrt{n}$}
+                \If{$n\mod i = 0$}
+                    \State $ans\gets \min(ans, \textsc{complexity}(i)+\textsc{complexity}(n/i))$
+                \EndIf
+            \EndFor
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
 
-\EndProcedure
-\end{algorithmic}
+Denna algoritm finner utan problem komplexiteten av tal upp till runt 20.
+Därefter blir den alltför långsam.
 
-Denna algoritm finner utan problem komplexiteten av tal upp till runt 20. Därefter blir den alltför långsam.
+En insikt kan dock förbättra vår metod och tillåta beräkning av komplexiteten
+för tal upp till 10 000 på under en sekund.
 
-En insikt kan dock förbättra vår metod och tillåta beräkning av komplexiteten för tal upp till 10 000 på under en sekund.
-
-Problemet innehåller nämligen många överlappande delproblem, och dessa löser algoritmen ett flertal gånger. Om vi istället sparar resultatet för varje
-tal kan de återanvändas. Vi ändrar nu även vår metod från att vara rekursiv, till att vara iterativ.
-
-
-\begin{algorithmic}[1]
-\Procedure{complexity}{$n$}\Comment{Returnerar komplexiteten av n}
-\State Deklarera $v$
-\For{$i\gets 1, n$}
-\State \textbf{return} $1$
-\State  $ans\gets \infty$
-\For{$j\gets 1, n/2$}
-\State $ans\gets \min(ans, v[i]+ v[n-i])$
-\EndFor
-\For{$i\gets 2, \sqrt{n}$}
-\If{$n\mod i = 0$}
-\State $ans\gets \min(ans, v[i]+v[n/i])$
-\EndIf
-\EndFor
-\State $v[i] \gets ans$
-\EndFor
-\EndProcedure
-\end{algorithmic}
+Problemet innehåller nämligen många överlappande delproblem, och dessa löser
+algoritmen ett flertal gånger. Om vi istället sparar resultatet för varje tal
+kan de återanvändas. Vi ändrar nu även vår metod från att vara rekursiv, till
+att vara iterativ.
 
 
-Att algoritmen nu är ickerekursiv gör ingen skillnad i tidskomplexitet, men gör den i praktiken snabbare samt gör den något enklare att analysera.
+\begin{algorithm}[H]
+    \caption{$O(N^2)$}
+    \begin{algorithmic}[1]
+        \Procedure{complexity}{$n$}\Comment{Returnerar komplexiteten av n}
+            \State Deklarera $v$
+            \For{$i\gets 1, n$}
+                \State \textbf{return} $1$
+                \State  $ans\gets \infty$
+                \For{$j\gets 1, n/2$}
+                    \State $ans\gets \min(ans, v[i]+ v[n-i])$
+                \EndFor
+                \For{$i\gets 2, \sqrt{n}$}
+                    \If{$n\mod i = 0$}
+                        \State $ans\gets \min(ans, v[i]+v[n/i])$
+                    \EndIf
+                \EndFor
+                \State $v[i] \gets ans$
+            \EndFor
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
 
-Denna procedur har en loop med två loopar inuti. Detta gör att en beräkning av C(n) tar $n\left(\frac{n}{2}+\sqrt n\right) = \frac{n^2}{2} + n\sqrt n$. Eftersom vi räknar asymptotiskt spelar varken långsammare växande termer eller konstantfaktorer roll,  vilket innebär att algoritmen får tidskomplexiteten $\mathcal{O}(n^2)$
 
-\bibliography{bib}{}
-\bibliographystyle{unsrtnat}
+Att algoritmen nu är ickerekursiv gör ingen skillnad i tidskomplexitet, men gör
+den i praktiken snabbare samt gör den något enklare att analysera.
+
+Denna procedur har en loop med två loopar inuti. Detta gör att en beräkning av
+$\C{n}$ tar $n\left(\frac{n}{2}+\sqrt n\right) = \frac{n^2}{2} + n\sqrt n$.
+Eftersom vi räknar asymptotiskt spelar varken långsammare växande termer eller
+konstantfaktorer roll,  vilket innebär att algoritmen får tidskomplexiteten
+$\mathcal{O}(n^2)$
+
+\newpage
+\begin{thebibliography}{9}
+    \bibitem{spansk}
+        \text{J. Arias de Reyna}, \emph{Complejidad de los n'umeros naturales}, 2000
+
+\end{thebibliography}
+%\bibliography{bib}{}
+%\bibliographystyle{unsrtnat}
 
 \end{document}
 
