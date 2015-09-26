@@ -1,4 +1,4 @@
-\documentclass[a4paper,titlepage,draft]{article}
+\documentclass[a4paper,titlepage]{article}
 
 % Swedish support
 \usepackage[utf8]{inputenc}
@@ -31,6 +31,7 @@
 % \newcommand{\C}[1]{\Vert #1 \Vert}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\C}[1]{\mathfrak C \left( #1 \right)}
+\renewcommand{\O}{\mathcal {O}}
 
 %====================  style theorems  ======================================
 
@@ -45,6 +46,10 @@
 \newtheorem{problem}{Problem}
 \newtheorem{fact}{Faktum}
 
+\newcommand*\foobar{\includegraphics[height=2pt]{babyseal}}
+%\catcode`\,=13 % make "." active
+%\def,{\foobar}
+\renewcommand\cdot{\,\raisebox{2pt}{\foobar}\,}
 %====================  Document starts here  ======================================
 
 \title{En studie av heltalens komplexitet}
@@ -106,7 +111,7 @@
     \subsection{Övre gräns}
 
     I detta avsnitt presenterar vi den övre gränsen upptäckt av J. Arias de
-    Reyna~\cite{spansk}.
+    Reyna~\cite{spansk}.,
     \begin{definition}
         Vi definierar funktionen $A:\N\to\N$ på följande sätt:
         $$ A(n) = \left\{ \begin{matrix*}[l] 1 & \text{om } n=1 \\ 1+A(n-1) & \text{om $n$ är primtal} \\ \sum_{i=1}^kA(p_i) & \text{om } n=p_1p_2 \ldots p_k \end{matrix*} \right. $$
@@ -174,87 +179,90 @@
     \end{proof}
 
 
-
 \section{Algoritmer för att generera sekvensen}
 
-http://arxiv.org/pdf/1404.2183v2.pdf
+    http://arxiv.org/pdf/1404.2183v2.pdf
 
-För att generera data att undersöka, söks en algoritm för att beräkna
-komplexiteten av ett tal.
+    För att generera data att undersöka, söks en algoritm för att beräkna
+    komplexiteten av ett tal.
 
-\subsection{En enkel algoritm}
+    \subsection{En enkel algoritm}
 
-För att lösa frågan börjar vi baklänges, och ställer oss frågan: vilken ska den
-sista operationen vara?  Det är ju givet att representationen antingen kommer
-kunna sammanfattas som $n = a\cdot b$ eller $n = a+b$.  Vi vill därför för både
-blabla rot, halv
+    För att lösa frågan börjar vi baklänges, och ställer oss frågan: vilken ska den
+    sista operationen vara?  Det är ju givet att representationen antingen kommer
+    kunna sammanfattas som $n = a\cdot b$ eller $n = a+b$.  Vi vill därför för både
+    blabla rot, halv
+    
+    Vi ser i \ref{nn} att 
 
-\begin{algorithm}[H]
-    \caption{$O(N^N)$}
-    \begin{algorithmic}[1]
-        \Procedure{complexity}{$n$}\Comment{Returnerar komplexiteten av n}
-            \If{$n = 1$}
-                \State \textbf{return} $1$
-            \EndIf
-            \State  $ans\gets \infty$
-            \For{$i\gets 1, n/2$}
-                \State $ans\gets \min(ans, \textsc{complexity}(i)+\textsc{complexity}(n-i))$
-            \EndFor
-            \For{$i\gets 2, \sqrt{n}$}
-                \If{$n\mod i = 0$}
-                    \State $ans\gets \min(ans, \textsc{complexity}(i)+\textsc{complexity}(n/i))$
+    \begin{algorithm}[H]
+        \caption{$\O(N^N)$}
+        \label{nn}
+        \begin{algorithmic}[1]
+            \Procedure{complexity}{$n$}\Comment{Returnerar komplexiteten av n}
+                \If{$n = 1$}
+                    \State \textbf{return} $1$
                 \EndIf
-            \EndFor
-        \EndProcedure
-    \end{algorithmic}
-\end{algorithm}
-
-Denna algoritm finner utan problem komplexiteten av tal upp till runt 20.
-Därefter blir den alltför långsam.
-
-En insikt kan dock förbättra vår metod och tillåta beräkning av komplexiteten
-för tal upp till 10 000 på under en sekund.
-
-Problemet innehåller nämligen många överlappande delproblem, och dessa löser
-algoritmen ett flertal gånger. Om vi istället sparar resultatet för varje tal
-kan de återanvändas. Vi ändrar nu även vår metod från att vara rekursiv, till
-att vara iterativ.
-
-
-\begin{algorithm}[H]
-    \caption{$O(N^2)$}
-    \begin{algorithmic}[1]
-        \Procedure{complexity}{$n$}\Comment{Returnerar komplexiteten av n}
-            \State Deklarera $v$
-            \For{$i\gets 1, n$}
-                \State \textbf{return} $1$
                 \State  $ans\gets \infty$
-                \For{$j\gets 1, n/2$}
-                    \State $ans\gets \min(ans, v[i]+ v[n-i])$
+                \For{$i\gets 1, n/2$}
+                    \State $ans\gets \min(ans, \textsc{complexity}(i)+\textsc{complexity}(n-i))$
                 \EndFor
                 \For{$i\gets 2, \sqrt{n}$}
                     \If{$n\mod i = 0$}
-                        \State $ans\gets \min(ans, v[i]+v[n/i])$
+                        \State $ans\gets \min(ans, \textsc{complexity}(i)+\textsc{complexity}(n/i))$
                     \EndIf
                 \EndFor
-                \State $v[i] \gets ans$
-            \EndFor
-        \EndProcedure
-    \end{algorithmic}
-\end{algorithm}
+            \EndProcedure
+        \end{algorithmic}
+    \end{algorithm}
+
+    Denna algoritm finner utan problem komplexiteten av tal upp till runt 20.
+    Därefter blir den alltför långsam.
+
+    En insikt kan dock förbättra vår metod och tillåta beräkning av komplexiteten
+    för tal upp till 10 000 på under en sekund.
+
+    Problemet innehåller nämligen många överlappande delproblem, och dessa löser
+    algoritmen ett flertal gånger. Om vi istället sparar resultatet för varje tal
+    kan de återanvändas. Vi ändrar nu även vår metod från att vara rekursiv, till
+    att vara iterativ.
 
 
-Att algoritmen nu är ickerekursiv gör ingen skillnad i tidskomplexitet, men gör
-den i praktiken snabbare samt gör den något enklare att analysera.
+    \begin{algorithm}[H]
+        \caption{$\O(N^2)$}
+        \begin{algorithmic}[1]
+            \Procedure{complexity}{$n$}\Comment{Returnerar komplexiteten av n}
+                \State Deklarera $v$
+                \For{$i\gets 1, n$}
+                    \State \textbf{return} $1$
+                    \State  $ans\gets \infty$
+                    \For{$j\gets 1, n/2$}
+                        \State $ans\gets \min(ans, v[i]+ v[n-i])$
+                    \EndFor
+                    \For{$i\gets 2, \sqrt{n}$}
+                        \If{$n\mod i = 0$}
+                            \State $ans\gets \min(ans, v[i]+v[n/i])$
+                        \EndIf
+                    \EndFor
+                    \State $v[i] \gets ans$
+                \EndFor
+            \EndProcedure
+        \end{algorithmic}
+    \end{algorithm}
 
-Denna procedur har en loop med två loopar inuti. Detta gör att en beräkning av
-$\C{n}$ tar $n\left(\frac{n}{2}+\sqrt n\right) = \frac{n^2}{2} + n\sqrt n$.
-Eftersom vi räknar asymptotiskt spelar varken långsammare växande termer eller
-konstantfaktorer roll,  vilket innebär att algoritmen får tidskomplexiteten
-$\mathcal{O}(n^2)$
+
+    Att algoritmen nu är ickerekursiv gör ingen skillnad i tidskomplexitet, men gör
+    den i praktiken snabbare samt gör den något enklare att analysera.
+
+    Denna procedur har en loop med två loopar inuti. Detta gör att en beräkning av
+    $\C{n}$ tar $n\left(\frac{n}{2}+\sqrt n\right) = \frac{n^2}{2} + n\sqrt n$.
+    Eftersom vi räknar asymptotiskt spelar varken långsammare växande termer eller
+    konstantfaktorer roll,  vilket innebär att algoritmen får tidskomplexiteten
+    $\O(n^2)$
 
 \newpage
 \begin{thebibliography}{9}
+
     \bibitem{spansk}
         \text{J. Arias de Reyna}, \emph{Complejidad de los n'umeros naturales}, 2000
 

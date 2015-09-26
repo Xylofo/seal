@@ -49,6 +49,9 @@ pseudokod.
 ### Torsdag 24 September -15 
 
 Alla jobbar med arbetsplanen. Arbetsplanen är nu färdig!
-Utkast av frågeställningarm skrevs ner.
+Utkast av frågeställningar skrevs ner.
 
+### Fredag 25 September -15 
 
+Finsjustering av arbetsplan och frågeställningar.
+Vi fixade även lite struktur i vårt huvuddokument.
