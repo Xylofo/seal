@@ -56,6 +56,8 @@ Utkast av frågeställningar skrevs ner.
 Finsjustering av arbetsplan och frågeställningar.
 Vi fixade även lite struktur i vårt huvuddokument.
 
+##Loggbok 4
+
 ### Måndag 5 October -15
 
 Heldag, mycket arbete har gjorts.
