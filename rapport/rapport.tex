@@ -1,5 +1,7 @@
 \documentclass[a4paper,titlepage]{article}
 
+%\setcounter{secnumdepth}{5}
+
 % Swedish support
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -293,11 +295,20 @@
     konstantfaktorer roll,  vilket innebär att algoritmen får tidskomplexiteten
     $\O(n^2)$
 
+    \subsection{En snabbare algoritm}
+    Nedan följer en beskrivning av den förbättrade algoritm som beskrivs i \cite{algorithm_lune}.
+    Den begränsande komplexiteten tidigare, var den hos loopen bla bla. Denna gick från 1 till n/2. Vi söker nu ett nytt, mindre kMax, sådant att:
+    $$\min\limits_{1 \leq k \leq n/2} \C{k} + \C{n-k} = \min\limits_{1 \leq k \leq kMax} \C{k} + \C{n-k}$$
+    \subsubsection{Hjälpfunktionen E}
+    Först definieras en hjälpfunktion E enligt: för varje naturligt tal tal k, låt E(k) vara det största talet sådant att \C{E(k)} = k.
+    Notera att detta är samma funktion som definieras i
 \newpage
 \begin{thebibliography}{9}
 
     \bibitem{spansk}
         \text{J. Arias de Reyna}, \emph{Complejidad de los n'umeros naturales}, 2000
+     \bibitem{algorithm_lune}
+     	\text{J. Arias de Reyna, J. Van de Lune}, \emph{Algorithms for Determining Integer Complexity}, arXic: 1404.2183v2
 
 \end{thebibliography}
 %\bibliography{bib}{}
