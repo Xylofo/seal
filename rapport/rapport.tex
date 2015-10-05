@@ -300,8 +300,26 @@
     Den begränsande komplexiteten tidigare, var den hos loopen bla bla. Denna gick från 1 till n/2. Vi söker nu ett nytt, mindre kMax, sådant att:
     $$\min\limits_{1 \leq k \leq n/2} \C{k} + \C{n-k} = \min\limits_{1 \leq k \leq kMax} \C{k} + \C{n-k}$$
     \subsubsection{Hjälpfunktionen E}
-    Först definieras en hjälpfunktion E enligt: för varje naturligt tal tal k, låt E(k) vara det största talet sådant att \C{E(k)} = k.
-    Notera att detta är samma funktion som definieras i
+    Först definieras en hjälpfunktion E enligt: för varje naturligt tal tal k, låt E(k) vara det största talet sådant att $\C{E(k)}$ = k.
+    Notera att detta är samma funktion som definieras i \cref{undregrans}. Vi definierar ytterligare att $E(0) = 1$. Enligt formeln i \cref{undregrans} får vi följande algoritm för att beräkna E(k).
+
+    \begin{algorithm}[H]
+        \caption{$\O(N^2)$}
+        \begin{algorithmic}[1]
+            \Procedure{E}{$n$}\Comment{Returnerar E(n)}
+                \If{$n = 0$}
+                    \State \textbf{return} $1$
+                \EndIf
+                \State $ans \gets 1$
+                \While{n > 4}
+                    \State $ans \gets ans*3$
+                    \State $n \gets n-3$
+                \EndWhile
+            \State \textbf{return} ans
+            \EndProcedure
+        \end{algorithmic}
+    \end{algorithm}
+
 \newpage
 \begin{thebibliography}{9}
 
