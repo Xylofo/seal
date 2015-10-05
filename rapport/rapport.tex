@@ -45,11 +45,12 @@
 \newtheorem{statement}{Påstående}
 \newtheorem{problem}{Problem}
 \newtheorem{fact}{Faktum}
+\newtheorem*{hypot}{Hypotes}
 
 \newcommand*\foobar{\includegraphics[height=2pt]{babyseal}}
 %\catcode`\,=13 % make "." active
 %\def,{\foobar}
-\renewcommand\cdot{\,\raisebox{2pt}{\foobar}\,}
+\renewcommand\cdot{\mathbin{\raisebox{2pt}{\foobar}}}
 %====================  Document starts here  ======================================
 
 \title{En studie av heltalens komplexitet}
@@ -86,7 +87,7 @@
             \item Kan man få tajtare gränser för specifika tal, alternativt få
                 en explicit formel?
                 \begin{itemize}
-                    \item kvadrater
+                    \item kvadrattal
                     \item primtal
                     \item 2 potenser
                     \item 3 potenser
@@ -155,6 +156,7 @@
     gräns är dock inte särskilt bra, men ingen bättre gräns har hittats.
 
     \subsection{Undre gräns}
+    \label{undregrans}
 
     Att bevisa en stark undre gräns till $\C{n}$ är något svårare.
     Idén är att man låter $M_m$ vara det största heltalet som har komplexitet m.
@@ -177,6 +179,37 @@
        Om man falluppdelar för att $n$ ligger i respektive av de tre grupperna
        får man enkelt fram att lemmat gäller.
     \end{proof}
+
+    \subsection{Speciella typer av tal}
+
+        \subsubsection{Kvadrattal}
+        \begin{hypot}
+            $\C{n^2}=2\cdot\C{n}$ \quad för alla $n\ge1$ \\
+            Denna hypotes bevisas falsk genom motexemplet $n=5^4$ vilket ger $\C{n}=20$
+            och $\C{n^2}=39<40=2\cdot\C{n}$.
+        \end{hypot}
+
+        \subsubsection{Primtal}
+        \begin{hypot}
+            $\C{p}=\C{p-1}+1$ \quad för alla primtal $p$ \\
+            Detta är något som troddes vara sant väldigt länge, men som ingen
+            lyckats bevisa. Med hjälp av de betydligt snabbare algoritmerna
+            kunde man dock finna det minsta motexemplet $p = \num{353942783}$
+            för vilket $\C{p} = 63 < 64 = \C{p-1}+1$.
+        \end{hypot}
+
+        \subsubsection{3-potenser}
+        \begin{hypot}
+            $\C{3^k}=3k$ \quad för alla $k\ge1$ \\
+            Det är tydligt att $\C{3^k} \le 3k$ då:
+            $$ 3^k = \underbrace{(1+1+1)(1+1+1)\ldots(1+1+1)}_{k \text{ st } (1+1+1) \text{ grupper}}$$
+            Enligt kapitel \ref{undregrans} gäller:
+            $$ \C{3^k} \ge 3\log_3(3^k) = 3k $$
+            Alltså är $3k\le\C{3^k}\le3k$ så $\C{3^k}=3k$ och hypotesen är
+            således bevisad.
+        \end{hypot}
+            
+
 
 
 \section{Algoritmer för att generera sekvensen}
