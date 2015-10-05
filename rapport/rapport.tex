@@ -161,10 +161,10 @@
     \label{undregrans}
 
     Att bevisa en stark undre gräns till $\C{n}$ är något svårare.
-    Idén är att man låter $M_m$ vara det största heltalet som har komplexitet m.
-    Detta betyder att $\C{M_m} = m$ och att för alla $k > M_m$ så är $\C{k}>m$.
+    Idén är att man låter $E(m)$ vara det största heltalet som har komplexitet $m$.
+    Detta betyder att $\C{E(m)} = m$ och att för alla $k > E(m)$ så är $\C{k}>m$.
     Med induktion kan man bevisa den slutna formeln (för $n>1$):
-    $$ M_n = \left\{ \begin{matrix*}[l] 3^k & \text{om } n=3k \\
+    $$ E(n) = \left\{ \begin{matrix*}[l] 3^k & \text{om } n=3k \\
                              4\cdot3^{k-1} & \text{om } n=3k+1 \\
                                  2\cdot3^k & \text{om } n=3k+2 \end{matrix*}
             \right.$$
@@ -205,7 +205,7 @@
             $\C{3^k}=3k$ \quad för alla $k\ge1$ \\
             Det är tydligt att $\C{3^k} \le 3k$ då:
             $$ 3^k = \underbrace{(1+1+1)(1+1+1)\ldots(1+1+1)}_{k \text{ st } (1+1+1) \text{ grupper}}$$
-            Enligt kapitel \ref{undregrans} gäller:
+            Enligt kapitel \cref{undregrans} gäller:
             $$ \C{3^k} \ge 3\log_3(3^k) = 3k $$
             Alltså är $3k\le\C{3^k}\le3k$ så $\C{3^k}=3k$ och hypotesen är
             således bevisad.
