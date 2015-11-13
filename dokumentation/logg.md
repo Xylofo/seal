@@ -58,8 +58,23 @@ Vi fixade även lite struktur i vårt huvuddokument.
 
 ##Loggbok 4
 
-### Måndag 5 October -15
+### Måndag 5 Oktober -15
 
 Heldag, mycket arbete har gjorts.
 Lisa har studerat J. Arias de Reyna och J. van de Lune artikel Algorithms for determining integer complexity och börjat skriva om en snabbare algoritm.
 Adrian och Joakim har genererat de 35 första fibonaccitalen och undersökt deras komplexitet, hittat ett motexempel för en hypotes angående kvadrattal och skrivit om detta samt bevisat en explicit formel för komplexiteten av 3-potenser.
+
+
+## Loggbok 5
+
+### Resten av Oktober
+
+Joakim och Adrian har analyserat sekvensen och på så sätt fått större insikt om vilka frågeställningar/fördjupningar som är vettiga.
+Mer i detalj har fibonaccital och primtal analyserats. Vissa delar ledde dock inte till så mycket som är värt att skriva om.
+Lisa har jobbat med att utöka och förbättra nuvarande algoritmavsnittet.
+Joakim har börjat sätta sig in i algoritmerna.
+
+
+
+
+
