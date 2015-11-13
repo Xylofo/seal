@@ -387,12 +387,20 @@
 \subsection{Fler algoritmer och diskussion}
  
 Av de algoritmer som beskrivs, finns en stor variation i kvalitet och användbarhet. Den första är den enklaste möjliga algoritmen för
-beräkning av $\C{}$, men praktiskt relativt oanvändbar. Till $O{n^2}$-algoritmen är steget inte långt, då dynamisk programmering får
+beräkning av $\C{}$, men praktiskt relativt oanvändbar. Till $\O(n^2)$-algoritmen är steget inte långt, då dynamisk programmering får
 anses vara en standardmetod, ändock är vinsten i tid enorm.
-Det största steget, om än inte 
 Den mest optimerade algoritm som finns för tillfället, är Fuller's algoritm, som även den beskrivs i \cite{algorithm_lune}.
-Algoritmen har samma tidskomplexitet som algoritmen som beskrivs ovan, men 
+Algoritmen har samma tidskomplexitet som algoritmen som beskrivs ovan, men bättre minneskomplexitet. Den är dock något mer komplicerad,
+och beräknar endast svaret för ett enda tal, istället för alla tal upp till det. 
+ \begin{tabular}[pos]{|l | c | c |}
+ \hline
+  \textbf{Algoritm} & \textbf{Tidkomplexitet} &  \textbf{Minneskomplexitet}\\ \hline
+Rekursiv brute force & $\O(N^N)$ & 0.5256\\ \hline
+Dynamisk programmering & $\O(N^2)$ & $N^2$\\ \hline
+Optimerad dynamisk programmering & $\O(N^{1.23})$ & 0.6584 \\ \hline
+Fuller's algoritm & $\O(N^{1.23})$ & 0.7159\\ \hline
 
+\end{tabular} \\
 
 \newpage
 \begin{thebibliography}{9}
