@@ -34,6 +34,10 @@
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\C}[1]{\mathfrak C \left( #1 \right)}
 \renewcommand{\O}{\mathcal {O}}
+\def\lc{\left\lceil}   
+\def\rc{\right\rceil}
+\def\lf{\left\lfloor}   
+\def\rf{\right\rfloor}
 
 %====================  style theorems  ======================================
 
@@ -225,10 +229,11 @@
 
     För att lösa frågan börjar vi baklänges, och ställer oss frågan: vilken ska den
     sista operationen vara?  Det är ju givet att representationen antingen kommer
-    kunna sammanfattas som $n = a\cdot b$ eller $n = a+b$.  Vi vill därför för både
-    blabla rot, halv
+    kunna sammanfattas som $n = a\cdot b$ eller $n = a+b$. Vi vill därför finna både rätt operation, och de två tal operationen ska
+    utföras på. För att beräkna vilket som blir effektivast, behöver vi veta hur komplexiteten för alla de tal vi har som alternativ.
+    Men detta är ju samma problem igen, så vi kan rekursera.
     
-    Vi ser i \ref{nn} att 
+    %Vi ser i \ref{nn} att 
 
     \begin{algorithm}[H]
         \caption{$\O(N^N)$}
@@ -236,12 +241,14 @@
         \begin{algorithmic}[1]
             \Procedure{complexity}{$n$}\Comment{Returnerar komplexiteten av n}
                 \If{$n = 1$}
-                    \State \textbf{return} $1$
+                    \State \textbf{return} $1$ \Comment{Vårt basfall, $\C{1} = 1$ ser till att algoritmen terminerar}
                 \EndIf
-                \State  $ans\gets \infty$
+                \State  $ans\gets \infty$ \\
+                \Comment{Kontrollerar alla möjliga summor av två tal}
                 \For{$i\gets 1, n/2$}
                     \State $ans\gets \min(ans, \textsc{complexity}(i)+\textsc{complexity}(n-i))$
-                \EndFor
+                \EndFor \\
+                \Comment{Kontrollerar alla möjliga produkter av två tal}
                 \For{$i\gets 2, \sqrt{n}$}
                     \If{$n\mod i = 0$}
                         \State $ans\gets \min(ans, \textsc{complexity}(i)+\textsc{complexity}(n/i))$
@@ -259,8 +266,7 @@
 
     Problemet innehåller nämligen många överlappande delproblem, och dessa löser
     algoritmen ett flertal gånger. Om vi istället sparar resultatet för varje tal
-    kan de återanvändas. Vi ändrar nu även vår metod från att vara rekursiv, till
-    att vara iterativ.
+    kan de återanvändas, enligt en teknik som kallas dynamisk programmering.
 
 
     \begin{algorithm}[H]
@@ -286,7 +292,7 @@
     \end{algorithm}
 
 
-    Att algoritmen nu är ickerekursiv gör ingen skillnad i tidskomplexitet, men gör
+    Att algoritmen nu är iterativ gör ingen skillnad i tidskomplexitet, men gör
     den i praktiken snabbare samt gör den något enklare att analysera.
 
     Denna procedur har en loop med två loopar inuti. Detta gör att en beräkning av
@@ -297,14 +303,20 @@
 
     \subsection{En snabbare algoritm}
     Nedan följer en beskrivning av den förbättrade algoritm som beskrivs i \cite{algorithm_lune}.
-    Den begränsande komplexiteten tidigare, var den hos loopen bla bla. Denna gick från 1 till n/2. Vi söker nu ett nytt, mindre kMax, sådant att:
+    Den begränsande komplexiteten tidigare, var den hos loopen som kontrollerar den bästa möjliga summeringen. Denna gick från 1 till n/2. Vi söker nu ett nytt, mindre kMax, sådant att:
     $$\min\limits_{1 \leq k \leq n/2} \C{k} + \C{n-k} = \min\limits_{1 \leq k \leq kMax} \C{k} + \C{n-k}$$
+
+
+    \subsubsection{Plan för algoritmen}
+    Algoritmen kommer att bestå av av definition av hjälpfunktionen E, initiering av C[] samt en mainloop. När algoritmen terminerar kommer listan C[] ha fyllts av $\C{n}$ för
+    $1 \leq n \leq nMax$. 
+
     \subsubsection{Hjälpfunktionen E}
     Först definieras en hjälpfunktion E enligt: för varje naturligt tal tal k, låt E(k) vara det största talet sådant att $\C{E(k)}$ = k.
     Notera att detta är samma funktion som definieras i \cref{undregrans}. Vi definierar ytterligare att $E(0) = 1$. Enligt formeln i \cref{undregrans} får vi följande algoritm för att beräkna E(k).
 
     \begin{algorithm}[H]
-        \caption{$\O(N^2)$}
+        \caption{$\O$}
         \begin{algorithmic}[1]
             \Procedure{E}{$n$}\Comment{Returnerar E(n)}
                 \If{$n = 0$}
@@ -320,13 +332,75 @@
         \end{algorithmic}
     \end{algorithm}
 
+    \subsubsection{Funktionen kMax}
+    Denna algoritm beräknar, med hjälp av E, tidigare nämna kMax för ett givet n. Notera att funktionen kräver att $\C{n}$ redan beräknats.
+
+    \begin{algorithm}[H]
+        \caption{$\O$}
+        \begin{algorithmic}[1]
+            \Procedure{kMax}{$n$}\Comment{Returnerar kMax(n)}
+               \State $target \gets C[n-1] $
+               \State $t \gets target/2 $
+               \While{E(t)+E(target-1) < n}
+                \State t = t-1
+                \EndWhile
+                \State \textbf{return} E(t)
+            \EndProcedure
+        \end{algorithmic}
+    \end{algorithm}
+
+
+    \subsubsection{Initiering av C[]}
+        Från början ska C[] innehålla något tal som är större än den faktiska komplexiteten alla $1 \leq n \leq nMax$. Detta tal kallar vi cMax. Enligt
+        {övregräns} så gäller att $\C{n} \leq  3\log_2 n$ \quad för alla $n\ge2$, så vi kan sätta $cMax =  \lf 3\log_2 n +1\rf$. Anledningen till att addera 1 är att eliminera risken för att de avrundningsfel som sker vid divisionen ska påverka resultatet.
+        Vi sätter även C[1] = 1 eftersom detta är det kända värde som kommer användas för att få fram resten.
+    \subsubsection{Mainloop}
+
+        \begin{algorithm}[H]
+        \caption{$\O(nMax^{1.23})$}
+        \begin{algorithmic}[1]
+            \Procedure{Complexity}{$nMax$}
+                \For{$n \gets 0, nMax$}
+                    \If{$C[n-1]+1 < C[n]$} 
+                        \State $C[n] \gets C[n-1]+1$
+                    \EndIf
+
+                    \For{$i \gets 6, kMax(n)$} \Comment Kollar summor
+                        \State $sumans \gets C[i]+C[n-i]$
+                        \If{$sumans < C[n]$}
+                            \State $ C[n] \gets sumans$
+                        \EndIf
+                    \EndFor
+                    \For{$i \gets 2, min(n, nMax/n)$}
+                        \State $prodvalue \gets C[i]+C[n]$
+                        \If {$prodvalue < C[i*n]$}
+                            \State $C[n*i] \gets prodvalue$
+                        \EndIf
+                    \EndFor
+                \EndFor
+            \EndProcedure
+        \end{algorithmic}
+    \end{algorithm}
+
+\subsubsection{Tidskomplexitet}
+
+\subsection{Fler algoritmer och diskussion}
+ 
+Av de algoritmer som beskrivs, finns en stor variation i kvalitet och användbarhet. Den första är den enklaste möjliga algoritmen för
+beräkning av $\C{}$, men praktiskt relativt oanvändbar. Till $O{n^2}$-algoritmen är steget inte långt, då dynamisk programmering får
+anses vara en standardmetod, ändock är vinsten i tid enorm.
+Det största steget, om än inte 
+Den mest optimerade algoritm som finns för tillfället, är Fuller's algoritm, som även den beskrivs i \cite{algorithm_lune}.
+Algoritmen har samma tidskomplexitet som algoritmen som beskrivs ovan, men 
+
+
 \newpage
 \begin{thebibliography}{9}
 
     \bibitem{spansk}
         \text{J. Arias de Reyna}, \emph{Complejidad de los n'umeros naturales}, 2000
      \bibitem{algorithm_lune}
-     	\text{J. Arias de Reyna, J. Van de Lune}, \emph{Algorithms for Determining Integer Complexity}, arXic: 1404.2183v2
+     	\text{J. Arias de Reyna, J. Van de Lune}, \emph{Algorithms for Determining Integer Complexity}, arXiv: 1404.2183v2
 
 \end{thebibliography}
 %\bibliography{bib}{}
