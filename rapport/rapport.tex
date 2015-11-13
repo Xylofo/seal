@@ -1,4 +1,4 @@
-\documentclass[a4paper,titlepage]{article}
+\documentclass[a4paper,titlepage,swedish]{article}
 
 %\setcounter{secnumdepth}{5}
 
@@ -15,7 +15,7 @@
 \usepackage{graphicx}
 \usepackage{microtype}
 \usepackage{hyperref}
-\usepackage[swedish]{cleveref}
+\usepackage{cleveref}
 \usepackage{siunitx}
 \usepackage{tikz}
 \usepackage{pgfplots}
@@ -116,6 +116,7 @@
 \section{Analys}
 
     \subsection{Övre gräns}
+    \label{ovregrans}
 
     I detta avsnitt presenterar vi den övre gränsen upptäckt av J. Arias de
     Reyna~\cite{spansk}.,
@@ -214,6 +215,26 @@
             Alltså är $3k\le\C{3^k}\le3k$ så $\C{3^k}=3k$ och hypotesen är
             således bevisad.
         \end{hypot}
+
+        \subsubsection{fibonaccital}
+        \begin{hypot}
+            Komplexiteten av det $n$:e fibonaccitalet $f_n$ växer i $\Theta(n)$ \\
+            Det är känt från \cref{ovregrans,undregrans} att $\C{n}=\Theta(\log
+            n)$ (dvs. att $\C{n}$ har både övre och undre gränser proportionerliga
+            mot $\log n$). Den explicita formeln för fibonaccitalen lyder:
+            $$ f_n = \frac{\phi^n-\psi^n}{\sqrt{5}} $$
+            Utifrån denna kan man få följande gränser på $f_n$:
+            $$ \phi^{n-1} < f_n < \phi^{n} $$
+            Detta betyder att:
+            \begin{align*}
+                3\log_3\phi^{n-1} &< \C{f_n} <3\log_2\phi^{n} \\
+                3(n-1)\log_3\phi &< \C{f_n} < n\log_2\phi \\
+                1.31(n-1)\log_3\phi &< \C{f_n} < 2.09n
+            \end{align*}
+        \end{hypot}
+        \begin{figure}[H]
+            \includegraphics[width=\textwidth]{grafer/test}
+        \end{figure}
             
 
 
