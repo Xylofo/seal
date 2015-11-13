@@ -74,6 +74,13 @@ Mer i detalj har fibonaccital och primtal analyserats. Vissa delar ledde dock in
 Lisa har jobbat med att utöka och förbättra nuvarande algoritmavsnittet.
 Joakim har börjat sätta sig in i algoritmerna.
 
+### Fredag 13 November
+
+Heldag. Vi har diskuterat hur vi ska gå vidare med arbetet (både med varrandra och med handledare).
+Adrian har börjat skriva en inledning om varför problemet är viktigt och hur det är ihopkopplat med 
+andra delar av talteori/matte/datavetenskap.
+Lisa har fortsatt skriva om algoritmer och leteat efter fler artiklar.
+Joakim har analytiskt analyserat sekvensen genom att plotta grafer. Vissa av dessa grafer är nu med i rapporten med lite tillhörande text till.
 
 
 

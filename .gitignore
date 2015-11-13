@@ -4,3 +4,4 @@
 *.fls
 *.log
 *.toc
+!rapport/grafer/*.pdf
