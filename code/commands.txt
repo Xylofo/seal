@@ -1,0 +1,19 @@
+c <- read.csv("comp1.csv",header=FALSE,sep=" ")
+
+d <- ggplot(diamonds, aes(V1,V2)) + stat_binhex(data=c,bins=200)
+d <- d+ scale_fill_gradientn(colours=c("grey","black"),name = "Frequency",na.value=NA) +theme_bw()
+d <- d+xlab(expression(italic(n))) + ylab(expression(Komplexiteten~av~italic(n)))
+
+upper_bound <- data.frame(V1 = x1, V2 = 3/log(2)*log(x1))
+d + geom_line(data=low_bound) + geom_line(data=upper_bound)
+
+ggsave("plain.pdf",width=7.5,height=5)
+
+
+// code for histogram:
+
+c <- read.csv("comp1.csv",header=FALSE,sep=" ")
+z <- log(c$V1)/(c$V2)
+hist(z[1:1000000],breaks=10000,xlim=c(0.231,0.366),xlab="",main="")
+dev.copy(pdf,"../rapport/grafer/hist.pdf", width=7.5, height=5)
+dev.off()
