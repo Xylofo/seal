@@ -210,6 +210,17 @@
     \end{figure}
 
     En annan intressant fråga är hur nära gränserna talen generellt sett ligger.
+    Låt $ L(n) = \frac{\ln(n)}{\C{n}}$. Enligt \cref{undregrans} gäller
+
+    $$3\log_3 n \le \C{n} $$
+    $$\frac{\log_3 n}{\C{n}} \le \frac{1}{3}$$
+    $$\frac{\ln n}{\C{n}} \le \frac{1}{3 \cdot \log_3(e)}$$
+    $$ L(n) \le \frac{1}{3 \cdot \log_3(e)} \approx 0.366$$
+
+    Den undre gränsen för $\C{n}$ ger alltså en övre gräns för värdet på $L(n)$, och desto närmre
+    $\C{n}$ ligger den undre gränsen, desto närmre kommer $\L{n}$ ligga denna övre gräns.
+
+    I \cref{normhist}
 
     \begin{figure}[H]
         \includegraphics[width=\textwidth]{grafer/redblue}
@@ -218,7 +229,8 @@
     \end{figure}
 
     \subsection{Speciella typer av tal}
-
+    Då ingen explicit formel för $\C{n}$ har funnits, finns ett intresse i att undersöka huruvida
+    samband existerar för specifika typer av tal. 
         \subsubsection{Kvadrattal}
         \begin{hypot}
             $\C{n^2}=2\cdot\C{n}$ \quad för alla $n\ge1$ \\
@@ -231,7 +243,7 @@
             $\C{p}=\C{p-1}+1$ \quad för alla primtal $p$ \\
             Detta är något som troddes vara sant väldigt länge, men som ingen
             lyckats bevisa. Med hjälp av de betydligt snabbare algoritmerna
-            kunde man dock finna det minsta motexemplet $p = \num{353942783}$
+            kunde man (VEM?) dock finna det minsta motexemplet $p = \num{353942783}$
             för vilket $\C{p} = 63 < 64 = \C{p-1}+1$.
         \end{hypot}
 
