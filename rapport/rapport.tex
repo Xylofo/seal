@@ -18,6 +18,7 @@
 \usepackage[swedish]{cleveref}
 \usepackage{siunitx}
 \usepackage{tikz}
+\usepackage{color}
 \usepackage{pgfplots}
 \usepackage{mathtools}
 %\usepackage{natbib}
@@ -195,6 +196,25 @@
     
     \begin{figure}[H]
         \includegraphics[width=\textwidth]{grafer/bounds}
+        \caption{Graf över $\C{n}$ med den övre gränsen $3\log_2(n)$ och den undre $3\log_3(n)$}
+        \label{bounds}
+    \end{figure}
+
+    Som man ser i \cref{bounds} är den undre gränsen så tight som det går, åtminstone som logaritmisk funktion. Den övre däremot ser ut att kunna
+    förbättras en del, och där finns möjlighet för vidare forskning i framtiden.
+
+    \begin{figure}[H]
+        \includegraphics[width=\textwidth]{grafer/normhist}
+        \caption{Histogram över $\frac{\ln(n)}{\C{n}}$ för alla $n\le10^7$ med anpassad normalfördelningskurva}
+        \label{normhist}
+    \end{figure}
+
+    En annan intressant fråga är hur nära gränserna talen generellt sett ligger.
+
+    \begin{figure}[H]
+        \includegraphics[width=\textwidth]{grafer/redblue}
+        \caption{Histogram över $\frac{\ln(n)}{\C{n}}$. I blått $n\le10^7$ och rött $n\le5\protect\cdot10^6$}
+        \label{redblue}
     \end{figure}
 
     \subsection{Speciella typer av tal}
@@ -363,10 +383,10 @@
     \end{algorithm}
 
 
-    \subsubsection{Initiering av $C[]$}
-        Från början ska C[] innehålla något tal som är större än den faktiska komplexiteten alla $1 \leq n \leq nMax$. Detta tal kallar vi cMax. Enligt
+    \subsubsection{Initiering av $C[\protect\cdot]$}
+        Från början ska $C[\cdot]$ innehålla något tal som är större än den faktiska komplexiteten alla $1 \leq n \leq nMax$. Detta tal kallar vi $cMax$. Enligt
         \cref{ovregrans} så gäller att $\C{n} \leq  3\log_2 n$ \quad för alla $n\ge2$, så vi kan sätta $cMax =  \lf 3\log_2 n +1\rf$. Anledningen till att addera 1 är att eliminera risken för att de avrundningsfel som sker vid divisionen ska påverka resultatet.
-        Vi sätter även C[1] = 1 eftersom detta är det kända värde som kommer användas för att få fram resten.
+        Vi sätter även $C[\cdot]=1$ eftersom detta är det kända värde som kommer användas för att få fram resten.
     \subsubsection{Mainloop}
 
         \begin{algorithm}[H]
@@ -402,7 +422,7 @@
 \subsection{Fler algoritmer och diskussion}
  
 Av de algoritmer som beskrivs, finns en stor variation i kvalitet och användbarhet. Den första är den enklaste möjliga algoritmen för
-beräkning av $\C{}$, men praktiskt relativt oanvändbar. Till $\O(n^2)$-algoritmen är steget inte långt, då dynamisk programmering får
+beräkning av $\C{n}$, men praktiskt relativt oanvändbar. Till $\O(n^2)$-algoritmen är steget inte långt, då dynamisk programmering får
 anses vara en standardmetod, ändock är vinsten i tid enorm.
 Den mest optimerade algoritm som finns för tillfället, är Fuller's algoritm, som även den beskrivs i \cite{algorithm_lune}.
 Algoritmen har samma tidskomplexitet som algoritmen som beskrivs ovan, men bättre minneskomplexitet. Den är dock något mer komplicerad,
