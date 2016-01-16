@@ -31,6 +31,11 @@
 
 %====================  defined macros  ======================================
 
+\algnewcommand{\LineComment}[1]{\State \(\triangleright\) #1}
+
+\providecommand{\ceil}[1]{\left \lceil #1 \right \rceil }
+\providecommand{\floor}[1]{\left \lfloor #1 \right \rfloor }
+
 % \newcommand{\C}[1]{\Vert #1 \Vert}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\C}[1]{\mathfrak C \left( #1 \right)}
@@ -251,10 +256,8 @@
 
 \section{Algoritmer för att generera sekvensen}
 
-    http://arxiv.org/pdf/1404.2183v2.pdf
-
-    För att generera data att undersöka, söks en algoritm för att beräkna
-    komplexiteten av ett tal.
+    För att generera data att undersöka söks en algoritm för att beräkna
+    komplexiteten $\C{n}$ för ett tal.
 
     \subsection{En enkel algoritm}
 
@@ -262,29 +265,43 @@
     sista operationen vara?  Det är ju givet att representationen antingen kommer
     kunna sammanfattas som $n = a\cdot b$ eller $n = a+b$. Vi vill därför finna både rätt operation, och de två tal operationen ska
     utföras på. För att beräkna vilket som blir effektivast, behöver vi veta hur komplexiteten för alla de tal vi har som alternativ.
-    Men detta är ju samma problem igen, så vi kan rekursera.
-    
-    %Vi ser i \ref{nn} att 
+    Detta kan vi alltså lösa rekursivt och då vi kan anta att $a,b<n$ vet vi att
+    algoritmen till slut kommer att komma till det basfallet $\C{1}=1$.
+    Vi utnyttjar alltså:
+    $$\C{n} = \min\Big[ \min_{1 \le k < n} \C{k}+\C{n-k}, \min_{k|n,1\le k}
+    \C{k} + \C{\frac{n}{k}} \Big]$$
 
+    En liten optimering är att för summan kommer vi behandla vissa fall dubbelt
+    (både $k=t$ och $k=n-t$ ger samma resultat) så det räcker i algoritmen att
+    endast behandla $k\le\floor{\frac{n}{2}}$. Liknande för multiplikationen
+    ser vi att $k=t$ och $k=\frac{n}{t}$ ger samma resultat så det räcker att
+    behandla $k\le\floor{\sqrt{n}}$.
+        
     \begin{algorithm}[H]
         \caption{$\O(N^N)$}
         \label{nn}
         \begin{algorithmic}[1]
             \Procedure{complexity}{$n$}\Comment{Returnerar komplexiteten av n}
                 \If{$n = 1$}
-                    \State \textbf{return} $1$ \Comment{Vårt basfall, $\C{1} = 1$ ser till att algoritmen terminerar}
+                    \LineComment{Vårt basfall, $\C{1} = 1$ ser till att algoritmen terminerar}
+                    \State \Return $1$
                 \EndIf
-                \State  $ans\gets \infty$ \\
-                \Comment{Kontrollerar alla möjliga summor av två tal}
-                \For{$i\gets 1, n/2$}
-                    \State $ans\gets \min(ans, \textsc{complexity}(i)+\textsc{complexity}(n-i))$
-                \EndFor \\
-                \Comment{Kontrollerar alla möjliga produkter av två tal}
-                \For{$i\gets 2, \sqrt{n}$}
-                    \If{$n\mod i = 0$}
-                        \State $ans\gets \min(ans, \textsc{complexity}(i)+\textsc{complexity}(n/i))$
+                \\
+                \State  $ans\gets \infty$
+                \\
+                \LineComment{Kontrollerar alla möjliga summor av två tal}
+                \For{$k\gets 1, \floor{n/2}$}
+                    \State $ans\gets \min(ans, \textsc{complexity}(k)+\textsc{complexity}(n-k))$
+                \EndFor
+                \\
+                \LineComment{Kontrollerar alla möjliga produkter av två tal}
+                \For{$k\gets 2, \floor{\sqrt{n}}$}
+                    \If{$k|n$}
+                        \State $ans\gets \min(ans, \textsc{complexity}(k)+\textsc{complexity}(n/k))$
                     \EndIf
                 \EndFor
+                \\
+                \State \Return $ans$
             \EndProcedure
         \end{algorithmic}
     \end{algorithm}
@@ -297,27 +314,42 @@
 
     Problemet innehåller nämligen många överlappande delproblem, och dessa löser
     algoritmen ett flertal gånger. Om vi istället sparar resultatet för varje tal
-    kan de återanvändas, enligt en teknik som kallas dynamisk programmering.
+    kan de återanvändas, enligt en teknik som kallas dynamisk programmering. Vi
+    sparar alltså $\C{n}$ i en lista $v[n]$ när vi har räknat ut komplexiteten
+    av ett tal för att sedan återanvända resultatet om det skulle behövas.
+    Vi låter för enkelhetens skull $v[n]=odefinerat$ från början. Förutom detta
+    är algoritmen lika som den förra.
+
+    Dessutom kan man göra algoritmen iterativ (d.v.s. att den inte är
+    rekursiv) då det räcker att veta värdena på $v[k]$ för alla $k<n$ när
+    man ska räkna ut $v[n]=\C{n}$. Vi fyller alltså upp listan $v$ i ordning.
 
 
     \begin{algorithm}[H]
         \caption{$\O(N^2)$}
         \begin{algorithmic}[1]
-            \Procedure{complexity}{$n$}\Comment{Returnerar komplexiteten av n}
-                \State Deklarera $v$
-                \For{$i\gets 1, n$}
-                    \State \textbf{return} $1$
+            \Procedure{complexity}{$maxN$}
+                \\
+                \LineComment{Basfallet}
+                \State $v[1]\gets 1$
+                \\
+                \For{$n\gets 2, maxN$}
+                    \LineComment{Här räknar vi ut $\C{n}$ på liknande sätt som
+                    tidigare}
                     \State  $ans\gets \infty$
-                    \For{$j\gets 1, n/2$}
-                        \State $ans\gets \min(ans, v[i]+ v[n-i])$
+                    \For{$k\gets 1, \floor{n/2}$}
+                        \State $ans\gets \min(ans, v[k]+ v[n-k])$
                     \EndFor
-                    \For{$i\gets 2, \sqrt{n}$}
-                        \If{$n\mod i = 0$}
-                            \State $ans\gets \min(ans, v[i]+v[n/i])$
+                    \For{$k\gets 2, \floor{\sqrt{n}}$}
+                        \If{$k|n$}
+                            \State $ans\gets \min(ans, v[k]+v[n/k])$
                         \EndIf
                     \EndFor
-                    \State $v[i] \gets ans$
+                    \State $v[n] \gets ans$
                 \EndFor
+                \\
+                \LineComment{Nu är $v[n]=\C{n}$ för alla $n\le maxN$}
+                \\    
             \EndProcedure
         \end{algorithmic}
     \end{algorithm}
@@ -327,10 +359,11 @@
     den i praktiken snabbare samt gör den något enklare att analysera.
 
     Denna procedur har en loop med två loopar inuti. Detta gör att en beräkning av
-    $\C{n}$ tar $n\left(\frac{n}{2}+\sqrt n\right) = \frac{n^2}{2} + n\sqrt n$.
+    $\C{n}$ tar proportionerligt mot $n\left(\frac{n}{2}+\sqrt n\right) =
+    \frac{n^2}{2} + n\sqrt n$ tid.
     Eftersom vi räknar asymptotiskt spelar varken långsammare växande termer eller
     konstantfaktorer roll,  vilket innebär att algoritmen får tidskomplexiteten
-    $\O(n^2)$
+    $\O(n^2)$.
 
     \subsection{En snabbare algoritm}
     Nedan följer en beskrivning av den förbättrade algoritm som beskrivs i \cite{algorithm_lune}.
