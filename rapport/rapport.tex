@@ -340,12 +340,12 @@
     \begin{algorithm}[H]
         \caption{$\O(N^2)$}
         \begin{algorithmic}[1]
-            \Procedure{complexity}{$maxN$}
+            \Procedure{complexity}{$nMax$}
                 \\
                 \LineComment{Basfallet}
                 \State $v[1]\gets 1$
                 \\
-                \For{$n\gets 2, maxN$}
+                \For{$n\gets 2, nMax$}
                     \LineComment{Här räknar vi ut $\C{n}$ på liknande sätt som
                     tidigare}
                     \State  $ans\gets \infty$
@@ -360,7 +360,7 @@
                     \State $v[n] \gets ans$
                 \EndFor
                 \\
-                \LineComment{Nu är $v[n]=\C{n}$ för alla $n\le maxN$}
+                \LineComment{Nu är $v[n]=\C{n}$ för alla $n\le nMax$}
                 \\    
             \EndProcedure
         \end{algorithmic}
@@ -379,53 +379,117 @@
 
     \subsection{En snabbare algoritm}
     Nedan följer en beskrivning av den förbättrade algoritm som beskrivs i \cite{algorithm_lune}.
-    Den begränsande komplexiteten tidigare, var den hos loopen som kontrollerar den bästa möjliga summeringen. Denna gick från 1 till n/2. Vi söker nu ett nytt, mindre kMax, sådant att:
-    $$\min\limits_{1 \leq k \leq n/2} \C{k} + \C{n-k} = \min\limits_{1 \leq k \leq kMax} \C{k} + \C{n-k}$$
+    Den begränsande komplexiteten tidigare, var den hos loopen som kontrollerar
+    den bästa möjliga summeringen. Denna gick från 1 till $\floor{n/2}$. Vi
+    söker nu ett nytt, mindre $kMax$, sådant att:
+    $$\min_{1 \leq k \leq \floor{n/2}} \C{k} + \C{n-k} = \min_{1 \leq k \leq kMax} \C{k} + \C{n-k}$$
 
+    Vi låter då $kMax_n$ vara ett sådant $kMax$ för ett specifikt $n$ (Inte
+    nödvändigtvis det minsta möjliga, men ett tillräckligt bra för att få ner
+    tidskomplexiteten).
+    Algoritmen får då tidskomplexiteten $\O(n\cdot kMax_n + n\sqrt n)$. I vår
+    tidigare algoritm hade vi $kMax_n = \frac{n}{2}$ som gav $\O(n\frac{n}{2}+ n\sqrt n) = \O(n^2)$.
 
     \subsubsection{Plan för algoritmen}
-    Algoritmen kommer att bestå av av definition av hjälpfunktionen E, initiering av C[] samt en mainloop. När algoritmen terminerar kommer listan C[] ha fyllts av $\C{n}$ för
-    $1 \leq n \leq nMax$. 
+    Algoritmen kommer att bestå av av definition av hjälpfunktionen $E$,
+    initiering av en lista $C[\cdot]$ samt en mainloop som räknar ut
+    komplexiteten av talen. När algoritmen terminerar kommer listan $C[\cdot]$
+    ha fyllts med $\C{n}$ för $1 \leq n \leq nMax$. 
 
-    \subsubsection{Hjälpfunktionen E}
-    Först definieras en hjälpfunktion E enligt: för varje naturligt tal tal k, låt E(k) vara det största talet sådant att $\C{E(k)}$ = k.
-    Notera att detta är samma funktion som definieras i \cref{undregrans}. Vi definierar ytterligare att $E(0) = 1$. Enligt formeln i \cref{undregrans} får vi följande algoritm för att beräkna E(k).
+    \subsubsection{Hjälpfunktionen $E$}
+    Först definieras en hjälpfunktion $E$ enligt: för varje naturligt tal tal
+    $k$, låt $E(k)$ vara det största talet sådant att $\C{E(k)} = k$.
+    Notera att detta är samma funktion $E$ som definieras i \cref{undregrans}.
+    Vi definierar ytterligare att $E(0) = 1$ (detta är ända skillnaden från
+    definitionen i \cref{undregrans}).
+    Enligt formeln i \cref{undregrans} får vi följande algoritm för att beräkna $E(k)$.
 
     \begin{algorithm}[H]
-        \caption{$\O$}
+        \caption{Hjälpfunktionen $E$}
         \begin{algorithmic}[1]
-            \Procedure{E}{$n$}\Comment{Returnerar E(n)}
-                \If{$n = 0$}
-                    \State \textbf{return} $1$
+            \Procedure{E}{$k$}\Comment{Returnerar $E(k)$}
+                \If{$k = 0$}
+                    \State \Return $1$
                 \EndIf
                 \State $ans \gets 1$
-                \While{n > 4}
+                \While{$k > 4$}
                     \State $ans \gets ans \cdot 3$
-                    \State $n \gets n-3$
+                    \State $k \gets k-3$
                 \EndWhile
-            \State \textbf{return} ans
+            \State \Return $ans$
             \EndProcedure
         \end{algorithmic}
     \end{algorithm}
 
+    Komplexiteten av denna funktion är $\O(k)$, men den kommer endast att
+    anropas med $k=\O(\log n)$ så detta är inget problem.
 
 
     \subsubsection{Funktionen kMax}
-    Denna algoritm beräknar, med hjälp av E, tidigare nämna kMax för ett givet n. Notera att funktionen kräver att $\C{n}$ redan beräknats.
+    Denna algoritm beräknar, med hjälp av $E$, tidigare nämna $kMax_n$. 
+    Notera att funktionen kräver att $\C{n-1}$ redan beräknats.
 
     \begin{algorithm}[H]
         \caption{$\O$}
         \begin{algorithmic}[1]
-            \Procedure{kMax}{$n$}\Comment{Returnerar kMax(n)}
+            \Procedure{kMax}{$n$}\Comment{Returnerar $kMax_n$}
                \State $target \gets C[n-1] $
                \State $t \gets target/2 $
-               \While{E(t)+E(target-1) < n}
+               \While{$E(t)+E(target-t) < n$}
                 \State $t \gets t-1$
                 \EndWhile
-                \State \textbf{return} E(t)
+                \State \Return $E(t)$
             \EndProcedure
         \end{algorithmic}
     \end{algorithm}
+    
+    Komplexiteten av denna funktion är enkel att härleda.
+    Vi ser att $t\le3\log_2(n-1) = \O(\log n)$. I varje steg av
+    \textbf{while}-loopen kommer $t$ minska, så denna loop gås maximalt igenom
+    $t$ gånger. Varje iteration av loopen anropas även $E$, som tar $\O(\log n)$
+    tid. Totala tidskomplexiteten är alltså $\O(t\log n) = \O(log^2 n)$.
+
+    Vi börjar med att visa att detta $kMax_n$ uppfyller villkoret att.
+    $$\min_{1 \leq k \leq \floor{n/2}} \C{k} + \C{n-k} = \min_{1 \leq k \leq
+    kMax_n} \C{k} + \C{n-k}$$
+    Beviset följer det bevis som presenteras i \cite{algorithm_lune}.
+    \begin{proof}
+        Antag motsatsen, dvs. att det existerar ett $k_0$ så att:
+        $$\C{k_0} + \C{n-k_0} < \min_{1 \leq k \leq kMax_n} \C{k} + \C{n-k}$$
+        Alltså vet vi att:
+        \begin{align*}
+            \C{k_0} + \C{n-k_0} &< \min_{1 \leq k \leq kMax_n} \C{k} + \C{n-k} \\
+            \C{k_0} + \C{n-k_0} &< \C{1} + \C{n-1} \\
+            \C{k_0} + \C{n-k_0} &\le \C{n-1} \quad (*)
+        \end{align*}
+        Alltså måste ett av talen $k_0$ eller $n-k_0$ (låt kalla detta tal $u$)
+        vara sådant att $\C{u} \le \C{n-1}/2$ (Annars har vi en motsägelse).
+        Alltså är $\C{u}\le t_0$ där $t_0$ är det ursprungliga värdet på $t$ i
+        loopen (detta p.g.a. definitionen av $E$). 
+        
+        Vi får nu:
+        \begin{align*}
+            n &= u + n-u & \\
+            n &\le E(\C{u})+E(\C{n-u}) & \text{då $k\le E(\C{k})$ (def. av $E$)}\\
+            n &\le E(\C{u})+E(\C{n-1}-\C{u}) & \text{då } \C{u}+\C{n-u}\le
+            \C{n-1} \text{ enl.} (*) \\
+            n &\le E(t')+E(\C{n-1}-t') & \text{där } t' = \C{u} 
+        \end{align*}
+        Alltså är $u\le E(t')$ men detta $t'$ måste har besökts i algoritmen där
+        vi loopar från $t_0$ så länge det att $E(t)+E(\C{n-1}-t) < n$. Men då $t' <
+        t_0$ och $n \le E(t')+E(\C{n-1}-t')$ vet vi att det slutgiltiga $t_{final}$ som
+        funktionen behandlar är så att  $t_{final} \ge t'$. Annars skulle
+        algoritmen besöka $t'$ innan $t_{final}$, och vid detta tillfälle
+        avbryta \textbf{while}-loopen. 
+        Därmed vet vi $kMax_n = E(t_{final}) \ge E(t') > u$ vilket ger en motsägelse.
+    \end{proof}
+
+    Vi vet alltså nu att $kMax_n$ är sådant att det räcker att loopa upp till
+    detta i vår algoritm.
+    Storleken av detta $kMax_n$ som funktionen returnerar är dock relativt svår att
+    bestämma. I \cite{algorithm_lune} bevisas följande övre gräns:
+    $$ kMax_n \le 2n^\beta \text{ där } \beta = \frac{\ln 3}{\ln 2} - 1 \approx
+    0.584963$$
 
 
     \subsubsection{Initiering av $C[\protect\cdot]$}
