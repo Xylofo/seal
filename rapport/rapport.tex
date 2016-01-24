@@ -394,13 +394,13 @@
     tidigare algoritm hade vi $kMax_n = \frac{n}{2}$ som gav $\O(n\frac{n}{2}+ n\sqrt n) = \O(n^2)$.
 
     \subsubsection{Plan för algoritmen}
-    Algoritmen kommer att bestå av av definition av hjälpfunktionen $E$,
+    Algoritmen kommer att bestå av en definition av hjälpfunktionen $E$,
     initiering av en lista $C[\cdot]$ samt en mainloop som räknar ut
     komplexiteten av talen. När algoritmen terminerar kommer listan $C[\cdot]$
     ha fyllts med $\C{n}$ för $1 \leq n \leq nMax$. 
 
     \subsubsection{Hjälpfunktionen $E$}
-    Först definieras en hjälpfunktion $E$ enligt: för varje naturligt tal tal
+    Först definieras en hjälpfunktion $E$ enligt: för varje naturligt tal
     $k$, låt $E(k)$ vara det största talet sådant att $\C{E(k)} = k$.
     Notera att detta är samma funktion $E$ som definieras i \cref{undregrans}.
     Vi definierar ytterligare att $E(0) = 1$ (detta är ända skillnaden från
@@ -459,6 +459,7 @@
     \begin{proof}
         Antag motsatsen, dvs. att det existerar ett $k_0$ så att:
         $$\C{k_0} + \C{n-k_0} < \min_{1 \leq k \leq kMax_n} \C{k} + \C{n-k}$$
+        där både $k_0$ och $n-k_0$ är större än $kMax_n$.
         Alltså vet vi att:
         \begin{align*}
             \C{k_0} + \C{n-k_0} &< \min_{1 \leq k \leq kMax_n} \C{k} + \C{n-k} \\
@@ -468,7 +469,7 @@
         Alltså måste ett av talen $k_0$ eller $n-k_0$ (låt kalla detta tal $u$)
         vara sådant att $\C{u} \le \C{n-1}/2$ (Annars har vi en motsägelse).
         Alltså är $\C{u}\le t_0$ där $t_0$ är det ursprungliga värdet på $t$ i
-        loopen (detta p.g.a. definitionen av $E$). 
+        loopen.
         
         Vi får nu:
         \begin{align*}
@@ -484,7 +485,8 @@
         funktionen behandlar är så att  $t_{final} \ge t'$. Annars skulle
         algoritmen besöka $t'$ innan $t_{final}$, och vid detta tillfälle
         avbryta \textbf{while}-loopen. 
-        Därmed vet vi $kMax_n = E(t_{final}) \ge E(t') > u$ vilket ger en motsägelse.
+        Därmed vet vi $kMax_n = E(t_{final}) > E(t') \ge u$ vilket ger en
+        motsägelse då $u > kMax_n = E(t_{final})$.
     \end{proof}
 
     Vi vet alltså nu att $kMax_n$ är sådant att det räcker att loopa upp till
@@ -496,10 +498,34 @@
 
 
     \subsubsection{Initiering av $C[\protect\cdot]$}
-        Från början ska $C[\cdot]$ innehålla något tal som är större än den faktiska komplexiteten alla $1 \leq n \leq nMax$. Detta tal kallar vi $cMax$. Enligt
-        \cref{ovregrans} så gäller att $\C{n} \leq  3\log_2 n$ \quad för alla $n\ge2$, så vi kan sätta $cMax =  \lf 3\log_2 n +1\rf$. Anledningen till att addera 1 är att eliminera risken för att de avrundningsfel som sker vid divisionen ska påverka resultatet.
-        Vi sätter även $C[\cdot]=1$ eftersom detta är det kända värde som kommer användas för att få fram resten.
+        Från början ska $C[\cdot]$ innehålla något tal som är större än den
+        faktiska komplexiteten alla $1 \leq n \leq nMax$. Detta tal kallar vi
+        $cMax$. Enligt \cref{ovregrans} så gäller att $\C{n} \leq  3\log_2 n$
+        för alla $n\ge2$, så vi kan sätta $cMax =  \lf 3\log_2 n +1\rf$.
+        Anledningen till att addera 1 är att eliminera risken för att de
+        avrundningsfel som sker vid log-funktionen ska påverka resultatet.  Vi
+        sätter även $C[1]=1$ eftersom detta är det kända basfallet.
+
     \subsubsection{Mainloop}
+        Slutligen sätter vi ihop allt till en mainloop som fyller up
+        listan $C[\cdot]$ i ordning. Notera att då $\C{n}=n$ för $n<6$ så gäller
+        $\C{n-k}+\C{k}\ge\C{n-1}+\C{1}$ för $k<6$. Man kan alltså börja
+        summa-loopen vid $k=6$ istället för $k=1$ om man behandlar faller $k=1$
+        separat (detta gör att algoritmen går något snabbare i praktiken).
+
+        Istället för att beräkna produktfallet när man behandlar talet $n$ kan
+        man redan innan fylla upp dessa möjligheter när man behandlar en delare
+        till $d$ till $n$ och då minska tidskomplexiteten från $\O(n\sqrt n)$
+        till $\O(n \log(n) \log(\log(n)))$ (samma tidskomplexitet som den välkända
+        Eratosthenes såll då den fungerar i stort sätt på samma sätt).
+
+        Totalt kommer alltså tidskomplexiteten vara $\O(n\cdot kMax_n +
+        n\log(n)\log(\log(n))  = \O(n^{\beta+1}) \approx \O(n^1.585)$. Dock kommer det i de flesta
+        fall vara så att $kMax_n << 2n^\beta$. Detta gör det möjligt att bevisa
+        den starkare övre gränsen på $\O(n^\alpha)$ där $\alpha\approx
+        1.230175$\,\,\cite{algorithm_lune}. Denna gräns på $\alpha$ är dock inte
+        nödvändigtvis den minsta möjliga.
+
 
         \begin{algorithm}[H]
         \caption{$\O(nMax^{1.230175})$}
@@ -510,8 +536,8 @@
                         \State $C[n] \gets C[n-1]+1$
                     \EndIf
 
-                    \For{$i \gets 6, kMax(n)$} \Comment Kollar summor
-                        \State $sumans \gets C[i]+C[n-i]$
+                    \For{$k \gets 6, kMax(n)$} \Comment Kollar summor
+                        \State $sumans \gets C[k]+C[n-k]$
                         \If{$sumans < C[n]$}
                             \State $ C[n] \gets sumans$
                         \EndIf
@@ -527,24 +553,29 @@
         \end{algorithmic}
     \end{algorithm}
 
-\subsubsection{Bevis}
-
-\subsubsection{Tidskomplexitet}
-
 \subsection{Fler algoritmer och diskussion}
  
 Av de algoritmer som beskrivs, finns en stor variation i kvalitet och användbarhet. Den första är den enklaste möjliga algoritmen för
 beräkning av $\C{n}$, men praktiskt relativt oanvändbar. Till $\O(n^2)$-algoritmen är steget inte långt, då dynamisk programmering får
 anses vara en standardmetod, ändock är vinsten i tid enorm.
 Den mest optimerade algoritm som finns för tillfället, är Fuller's algoritm, som även den beskrivs i \cite{algorithm_lune}.
-Algoritmen har samma tidskomplexitet som algoritmen som beskrivs ovan, men bättre minneskomplexitet. Den är dock något mer komplicerad,
-och beräknar endast svaret för ett enda tal, istället för alla tal upp till det. 
+Algoritmen har samma tidskomplexitet som algoritmen som beskrivs ovan, men
+bättre minneskomplexitet. Detta gör den mer praktiskt användbar då det som
+begränsar den ovan beskrivna algoritmen är dess minneskomplexitet $\O(n
+\log(\log(n)))$ då vi sparar $n$ tal med storlek $\O(log n)$ (gräns på $\C{n}$).
+Att spara ett tal med storlek $k$ tar $\O(log k)$ minne. Idén med Fullers
+algoritm är att endast spara vissa delar av $C[\cdot]$ vid varje tidpunkt i
+minnet. Vilka delar som behöver sparas är ett relativt svårt problem vilket är
+därför vi inte förklarar algoritmen här. Denna algoritm är den som är använd för
+att kunna undersöka egenskaper av $\C{n}$, exempelvis dess invers, hur tajta
+gränserna är och hitta motexempel till hypoteser.
+
  \begin{tabular}[pos]{|l | c | c |}
  \hline
   \textbf{Algoritm} & \textbf{Tidskomplexitet} &  \textbf{Minneskomplexitet}\\ \hline
 Rekursiv brute force & $\O(n^n)$ & b\\ \hline
 Dynamisk programmering & $\O(n^2)$ & $n \cdot \log \log n$\\ \hline
-Optimerad dynamisk programmering & $\O(n^{1.230175})$ & 0.6584 \\ \hline
+Optimerad algoritm & $\O(n^{1.230175})$ & 0.6584 \\ \hline
 Fuller's algoritm & $\O(n^{1.230175})$ & 0.7159\\ \hline
 
 \end{tabular} \\
