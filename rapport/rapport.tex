@@ -30,6 +30,7 @@
 \pgfplotsset{compat=1.10}
 
 %====================  defined macros  ======================================
+\setlength\extrarowheight{2pt}
 
 \algnewcommand{\LineComment}[1]{\State \(\triangleright\) #1}
 
@@ -335,7 +336,7 @@
     Vi låter för enkelhetens skull $v[n]=odefinerat$ från början. Förutom detta
     är algoritmen lika som den förra.
 
-    Dessutom kan man göra algoritmen iterativ (d.v.s. att den inte är
+    Dessutom kan man göra algoritmen iterativ (dvs. att den inte är
     rekursiv) då det räcker att veta värdena på $v[k]$ för alla $k<n$ när
     man ska räkna ut $v[n]=\C{n}$. Vi fyller alltså upp listan $v$ i ordning.
 
@@ -507,28 +508,28 @@
         sätter även $C[1]=1$ eftersom detta är det kända basfallet.
 
     \subsubsection{Mainloop}
-        Slutligen sätter vi ihop allt till en mainloop som fyller up
+        Slutligen sätter vi ihop allt till en mainloop som fyller upp
         listan $C[\cdot]$ i ordning. Notera att då $\C{n}=n$ för $n<6$ så gäller
         $\C{n-k}+\C{k}\ge\C{n-1}+\C{1}$ för $k<6$. Man kan alltså börja
         summa-loopen vid $k=6$ istället för $k=1$ om man behandlar faller $k=1$
         separat (detta gör att algoritmen går något snabbare i praktiken).
 
         Istället för att beräkna produktfallet när man behandlar talet $n$ kan
-        man redan innan fylla upp dessa möjligheter när man behandlar en delare
-        till $d$ till $n$ och då minska tidskomplexiteten från $\O(n\sqrt n)$
+        man redan innan fylla upp dessa möjligheter när man behandlar delarna
+        till $n$ och då minska tidskomplexiteten från $\O(n\sqrt n)$
         till $\O(n \log(n) \log(\log(n)))$ (samma tidskomplexitet som den välkända
         Eratosthenes såll då den fungerar i stort sätt på samma sätt).
 
         Totalt kommer alltså tidskomplexiteten vara $\O(n\cdot kMax_n +
-        n\log(n)\log(\log(n))  = \O(n^{\beta+1}) \approx \O(n^1.585)$. Dock kommer det i de flesta
-        fall vara så att $kMax_n << 2n^\beta$. Detta gör det möjligt att bevisa
-        den starkare övre gränsen på $\O(n^\alpha)$ där $\alpha\approx
-        1.230175$\,\,\cite{algorithm_lune}. Denna gräns på $\alpha$ är dock inte
-        nödvändigtvis den minsta möjliga.
+        n\log(n)\log(\log(n))) = \O(n^{\beta+1}) \approx \O(n^{1.585})$. Dock
+        kommer det i de flesta fall vara så att $kMax_n \ll 2n^\beta$. Detta gör
+        det möjligt att bevisa den starkare övre gränsen på $\O(n^\alpha)$ där
+        $\alpha\approx 1.230175$\,\,\cite{algorithm_lune}. Denna gräns på
+        $\alpha$ är dock inte nödvändigtvis den minsta möjliga.
 
 
         \begin{algorithm}[H]
-        \caption{$\O(nMax^{1.230175})$}
+        \caption{$\O(n^{1.230175})$}
         \begin{algorithmic}[1]
             \Procedure{Complexity}{$nMax$}
                 \For{$n \gets 0, nMax$}
@@ -553,32 +554,65 @@
         \end{algorithmic}
     \end{algorithm}
 
-\subsection{Fler algoritmer och diskussion}
- 
-Av de algoritmer som beskrivs, finns en stor variation i kvalitet och användbarhet. Den första är den enklaste möjliga algoritmen för
-beräkning av $\C{n}$, men praktiskt relativt oanvändbar. Till $\O(n^2)$-algoritmen är steget inte långt, då dynamisk programmering får
-anses vara en standardmetod, ändock är vinsten i tid enorm.
-Den mest optimerade algoritm som finns för tillfället, är Fuller's algoritm, som även den beskrivs i \cite{algorithm_lune}.
-Algoritmen har samma tidskomplexitet som algoritmen som beskrivs ovan, men
-bättre minneskomplexitet. Detta gör den mer praktiskt användbar då det som
-begränsar den ovan beskrivna algoritmen är dess minneskomplexitet $\O(n
-\log(\log(n)))$ då vi sparar $n$ tal med storlek $\O(log n)$ (gräns på $\C{n}$).
-Att spara ett tal med storlek $k$ tar $\O(log k)$ minne. Idén med Fullers
-algoritm är att endast spara vissa delar av $C[\cdot]$ vid varje tidpunkt i
-minnet. Vilka delar som behöver sparas är ett relativt svårt problem vilket är
-därför vi inte förklarar algoritmen här. Denna algoritm är den som är använd för
-att kunna undersöka egenskaper av $\C{n}$, exempelvis dess invers, hur tajta
-gränserna är och hitta motexempel till hypoteser.
+    \subsection{Fler algoritmer och diskussion}
+     
+        Av de algoritmer som beskrivs, finns en stor variation i kvalitet och
+        användbarhet. Den första är den enklaste möjliga algoritmen för
+        beräkning av $\C{n}$, men praktiskt relativt oanvändbar. Till
+        $\O(n^2)$-algoritmen är steget inte långt, då dynamisk programmering får
+        anses vara en standardmetod, ändock är vinsten i tid enorm.  Den mest
+        optimerade algoritm som finns för tillfället, är Fuller's algoritm, som
+        även den beskrivs i \cite{algorithm_lune}.  Algoritmen har samma
+        tidskomplexitet som algoritmen som beskrivs ovan, men bättre
+        minneskomplexitet. Detta gör den mer praktiskt användbar då det som
+        begränsar den ovan beskrivna algoritmen är dess minneskomplexitet $\O(n
+        \log\log n)$ då vi sparar $n$ tal med storlek $\O(\log n)$ (gräns på
+        $\C{n}$).  Att spara ett tal med storlek $k$ tar $\O(\log k)$ minne. Idén
+        med Fullers algoritm är att endast spara vissa delar av $C[\cdot]$ vid
+        varje tidpunkt i minnet. Vilka delar som behöver sparas är ett relativt
+        svårt problem vilket är därför vi inte förklarar algoritmen här. Denna
+        algoritm är den som är använd för att kunna undersöka egenskaper av
+        $\C{n}$, exempelvis dess invers, hur tajta gränserna är och hitta
+        motexempel till hypoteser.
 
- \begin{tabular}[pos]{|l | c | c |}
- \hline
-  \textbf{Algoritm} & \textbf{Tidskomplexitet} &  \textbf{Minneskomplexitet}\\ \hline
-Rekursiv brute force & $\O(n^n)$ & b\\ \hline
-Dynamisk programmering & $\O(n^2)$ & $n \cdot \log \log n$\\ \hline
-Optimerad algoritm & $\O(n^{1.230175})$ & 0.6584 \\ \hline
-Fuller's algoritm & $\O(n^{1.230175})$ & 0.7159\\ \hline
+        Som en sammanfattning listas nedan en tabell över de olika algoritmerna 
+        med respektive tidskomplexitet och minneskomplexitet \cref{tbl}.
 
-\end{tabular} \\
+
+        \begin{table}[H]
+        \begin{tabular}[pos]{|l | c | c |}
+            \hline
+            \textbf{Algoritm}       & \textbf{Tidskomplexitet} &  \textbf{Minneskomplexitet}\\ \hline
+            Rekursiv brute force    & $\O(n^n)$      & $\O(n\log\log n)$ \\ \hline
+            Dynamisk programmering  & $\O(n^2)$      & $\O(n\log\log n)$ \\ \hline
+            Optimerad algoritm      & $\O(n^\alpha)$ & $\O(n\log\log n)$ \\ \hline
+            Fullers algoritm       & $\O(n^\alpha)$ & $\O(n^{(1+\beta)/2}\log\log n)$\\ \hline
+        \end{tabular}
+        \end{table}
+    
+        \noindent
+        Där vi vet $\beta=\frac{\ln 3}{\ln 2}$ och $\alpha \le 1.230175$. Alltså är
+        $(1+\beta)/2 \approx 0.792481$. Som ett förtydligande över hur stora
+        skillnaderna i tidskomplexiteten är visas i tabellen nedan en
+        uppskattning på hur stora tal man kan räkna ut $\C{n}$ för antaget att
+        man använder en dator med ca $10^8$ beräkningar per sekund (motsvarande
+        en modern laptop) och låter programmet köra 5 minuter.
+
+        \begin{table}[H]
+        \begin{tabular}[pos]{|l | c | l |}
+            \hline
+            \textbf{Algoritm}       & \textbf{Tidskomplexitet} &  \textbf{Klarar på 5 min}\\ \hline
+            Rekursiv brute force    & $\O(n^n)$      & $n\sim20$ \\ \hline
+            Dynamisk programmering  & $\O(n^2)$      & $n\sim50\,000$ \\ \hline
+            Optimerad algoritm      & $\O(n^\alpha)$ & $n\sim100\,000\,000$ \\ \hline
+            Fullers algoritm       & $\O(n^\alpha)$ & $n\sim100\,000\,000$ \\ \hline
+        \end{tabular}
+        \end{table}
+        
+        \noindent
+        Att köra den optimerade algoritmen en längre tid kommer ej fungera
+        pga. den höga minneskomplexiteten. Det är då Fullers algoritm blir
+        nödvändig.
 
 \newpage
 \begin{thebibliography}{9}
