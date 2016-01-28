@@ -191,7 +191,7 @@
     \end{lemma}
     \begin{proof}
        Om man falluppdelar för att $n$ ligger i respektive av de tre grupperna
-       får man enkelt fram att lemmat gäller.
+       får man enkelt fram att lemmat gäller genom induktion.
     \end{proof}
 
     Eftersom $B(n)\le\C{n}$ följer av lemmat således att $\C{n}\ge 3\log_3 $ vilket är
@@ -263,23 +263,40 @@
         \subsubsection{Primtal}
         \begin{hypot}
             $\C{p}=\C{p-1}+1$ \quad för alla primtal $p$ \\
-            Detta är något som troddes vara sant väldigt länge, men som ingen
-            lyckats bevisa. Med hjälp av de betydligt snabbare algoritmerna
-            kunde man (VEM?) dock finna det minsta motexemplet $p = \num{353942783}$
-            för vilket $\C{p} = 63 < 64 = \C{p-1}+1$.
+            Detta är något som troddes vara sant väldigt länge. Matematikern
+            Richard Guy inkluderade denna frågeställning i sin bok \cite{guy}.
+            Med hjälp av de betydligt snabbare algoritmerna kunde man dock finna
+            det minsta motexemplet $p = \num{353942783}$ för vilket $\C{p} = 63
+            < 64 = \C{p-1}+1$. \cite{ospansk}
         \end{hypot}
 
         \subsubsection{3-potenser}
         \begin{hypot}
             $\C{3^k}=3k$ \quad för alla $k\ge1$ \\
+            Detta frågades också av Guy \cite{guy}.
             Det är tydligt att $\C{3^k} \le 3k$ då:
             $$ 3^k = \underbrace{(1+1+1)(1+1+1)\ldots(1+1+1)}_{k \text{ st } (1+1+1) \text{ grupper}}$$
             Enligt \cref{undregrans} gäller:
             $$ \C{3^k} \ge 3\log_3(3^k) = 3k $$
             Alltså är $3k\le\C{3^k}\le3k$ så $\C{3^k}=3k$ och hypotesen är
             således bevisad.
+
+            Mer generellt gäller att $\C{3^k}=3k, \C{2\cdot3^k}=3k+2 \text{ och
+            } \C{4\cdot3^k} = 3k+4$. Detta följer av funktionenerna $E$ och $B$ som
+            definierades i \cref{undregrans}. 
         \end{hypot}
-            
+         \subsubsection{2-potenser}
+        \begin{hypot}
+            $\C{2^k}=2k$ \quad för alla $k\ge1$ \\
+            Även denna fråga formulerades i Guys bok \cite{guy}, men frågades
+            först av Selfrige.
+            Det är återigen tydligt att $\C{2^k} \le 2k$:
+            $$ 2^k = \underbrace{(1+1)(1+1)\ldots(1+1)}_{k \text{ st } (1+1) \text{ grupper}}$$
+            Dock har hypotesen varken verifierats eller motbevisats.
+            Hypotesen gäller för alla $k\le29$ (kontrollerat numeriskt). Trots
+            detta menar Arias de Reyna att det antagligen inte gäller för
+            godtyckligt stora $k$ \cite{ospansk}.
+        \end{hypot}
 
 
 
@@ -551,10 +568,7 @@
                     \EndIf
 
                     \For{$k \gets 6, kMax(n)$} \Comment Kollar summor
-                        \State $sumans \gets C[k]+C[n-k]$
-                        \If{$sumans < C[n]$}
-                            \State $ C[n] \gets sumans$
-                        \EndIf
+                        \State $C[n] \gets \min(C[n], C[k]+C[n-k])$
                     \EndFor
                     \For{$i \gets 2, min(n, nMax/n)$}
                         \State $prodvalue \gets C[i]+C[n]$
@@ -583,13 +597,13 @@
         $\C{n}$).  Att spara ett tal med storlek $k$ tar $\O(\log k)$ minne. Idén
         med Fullers algoritm är att endast spara vissa delar av $C[\cdot]$ vid
         varje tidpunkt i minnet. Vilka delar som behöver sparas är ett relativt
-        svårt problem vilket är därför vi inte förklarar algoritmen här. Denna
-        algoritm är den som är använd för att kunna undersöka egenskaper av
-        $\C{n}$, exempelvis dess invers, hur tajta gränserna är och hitta
-        motexempel till hypoteser.
+        svårt problem vilket är anledningen till att algoritmen inte förklaras
+        här. Denna algoritm är den som är använd för att kunna undersöka
+        egenskaper av $\C{n}$, exempelvis dess invers, hur tajta gränserna är
+        och hitta motexempel till hypoteser.
 
         Som en sammanfattning listas nedan en tabell över de olika algoritmerna 
-        med respektive tidskomplexitet och minneskomplexitet \cref{tbl}.
+        med respektive tidskomplexitet och minneskomplexitet.
 
 
         \begin{table}[H]
@@ -625,15 +639,41 @@
         \noindent
         Att köra den optimerade algoritmen en längre tid kommer ej fungera
         pga. den höga minneskomplexiteten. Det är då Fullers algoritm blir
-        nödvändig.
+        nödvändig. 
+        
+        Att ha en snabbare algoritm än de kvadratiska är alltså en stor fördel
+        (man tillåts beräkna betydligt större värden av $\C{n}$). Sekvensen har
+        som tidigare nämnt några oväntade användningsområden (även om de inte är
+        särskilt stora). Att studera algoritmer för att lösa detta problem visar
+        även på några vanliga tekniker som används i många andra sammanhang;
+        exempelvis dynamisk programmering och reducering av sökrum (\emph{search
+        space reduction}, dvs. när man kan bortse från vissa möjligheter för att
+        få en snabbare algoritm). Många andra problem inom talteorin är nära
+        relaterade till heltalskomplexiteten, bland annat delbarhet och primtals
+        såll. Att finna nya strategier inom detta problem kan alltså även ge
+        insikter om hur man kan konstruera snabbare algoritmer för relaterade
+        problem som är betydelsefulla inom både matematik, kryptografi och
+        datavetenskap. 
+
+        Detta problem är ännu öppet och Fullers algoritm uppfanns
+        så sent som 2008, så det finns goda chanser att det kommer komma
+        effektivare algoritmer för att lösa detta problem i framtiden.
 
 \newpage
 \begin{thebibliography}{9}
 
     \bibitem{spansk}
-        \text{J. Arias de Reyna}, \emph{Complejidad de los n'umeros naturales}, 2000
+        \text{J. Arias de Reyna}, ``Complejidad de los n'umeros naturales'',
+        Universidad de Sevilla, 2000. 
      \bibitem{algorithm_lune}
-     	\text{J. Arias de Reyna, J. Van de Lune}, \emph{Algorithms for Determining Integer Complexity}, arXiv: 1404.2183v2
+     	\text{J. Arias de Reyna, J. Van de Lune}, ``Algorithms for Determining
+        Integer Complexity'', Universidad de Sevilla, 2014. Preprint, arXiv: 1404.2183v2,
+     \bibitem{ospansk}
+     	\text{J. Arias de Reyna}, ``The question ``How many 1’s
+        are needed?'' revisited'', 2009. Preprint, arXiv: 1404.1850v1
+     \bibitem{guy}
+     	\text{R. Guy}, \emph{Unanswered Problems in Number Theory}, The University of Calgary, 
+        \copyright 1994 Springer-Verlag New York Inc. 
 
 \end{thebibliography}
 %\bibliography{bib}{}
