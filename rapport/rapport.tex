@@ -229,7 +229,18 @@
     Den undre gränsen för $\C{n}$ ger alltså en övre gräns för värdet på $L(n)$, och desto närmre
     $\C{n}$ ligger den undre gränsen, desto närmre kommer $\L{n}$ ligga denna övre gräns.
 
-    I \cref{normhist}
+    På samma sätt kan den övre gränsen för $\C{n}$ användas för att ge den undre gränsen
+
+    $$ L(n) \ge \frac{\ln 2}{3} \approx 0.231 $$
+
+    Något vi frågade oss då vi såg det histogram av $L(n)$ som ses ovan, var huruvida funktionen var normalfördelad.
+    Det vore möjligt att den höga topp respektive låga dal bara var tillfälligheter som berodde på att vi plottade över för få tal.
+    Som synes i \cref{normhist} går det relativt bra att anpassa en normalfördelning (den blå kurvan).
+    För att undersöka huruvida histogrammets form är permanent och kommer förtydligas vid större intervall,
+    eller om det kommer jämnas ut, plottades histogram över två olika intervall, se \cref{redblue}. De båda histogrammen är förvillande
+    lika, men formen är trots det något förskjuten. Faktum är att dalen i det röda intervallet sammanfaller med högsta punkten
+    i det röda!\\
+
 
     \begin{figure}[H]
         \includegraphics[width=\textwidth]{grafer/redblue}
