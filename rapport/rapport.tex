@@ -75,10 +75,10 @@
 \selectlanguage{english}
 \begin{abstract}
     In this report we will study the complexity of N. 
-    The first part of the report discusses and presents proofs and illustrations for the bounds for functions
-    of integer complexity.
+    The first part of the report discusses and presents proofs and illustrations for the bounds of functions
+    concerning integer complexity.
     The report also presents investigations on specific groups of integers, such as prime numbers and
-    powers of 3, presenting narrower bounds, explicit formulas.
+    powers of 3, presenting narrower bounds and or explicit formulas.
     Finally the report explains several algorithms, of varying intricacy and efficiency, for finding integer
     complexity.
     
@@ -99,7 +99,7 @@
     \begin{center}
  \begin{tabular}{| l | l | l | }
     \hline
-    n & $\C{n}$ & exempelminumumrepresentation  \\ \hline
+    n & $\C{n}$ & Exempel på minimal representation  \\ \hline
     1 & 1 & 1  \\ \hline
     2 & 2 & 1+1  \\ \hline
     3 & 3 & 1+1+1  \\ \hline
@@ -118,25 +118,28 @@
 
 	  \subsection{Motivation}
 	
-	Frågor om storleken på heltalens komplexitet har ofta enkla formuleringar som är enkla att 	förstå utan en matematisk utbildning. Svaren på frågorna verkar betydligt svårare och kan 	ge insikt i ett antal andra frågor.	
+	Frågor om storleken på heltalens komplexitet har ofta enkla formuleringar som är enkla att 	förstå utan en matematisk utbildning.
+    Svaren på frågorna verkar betydligt svårare och kan ge insikt i ett antal andra frågor.	
 	
 	\subsubsection{Ett exempel}
 	Tidskomplexiteten för att räkna ut komplexiteten av ett 
-	givet heltal är kopplat till problemet är $P \stackrel{?}{=} NP$
+	givet heltal är kopplat till problemet $P \stackrel{?}{=} NP$.
 	
 	$P$ och $NP$ kan illustreras med följande exempel. 
-	Inför ett alfabet,  mängd, A,
-	en mängd A* 	av alla finita ord som kan skrivas med A,
-	ett språk S som är en delmängd av A*,
-	dä är  S tillhörande P omm det existerar en algoritm T och ett polynom P så att T ger T(x)=1 	om x är ett element ur S och T(x)=0 om x ej är ett element ur S, samt att T ger T(x) på en tid 	$\le$ P(|x|), där |x| betecknar längden av ordet x.
-	S tillhör NP omm det existerar en algoritm T och ett polynom P så att det för alla x existerar ett 	y så att |y|$\le$P(|x|) och T ger T(x,y)=1 om x år ett element ur S på en tid $\le$ P(|x|) och T
-	ger T(x,y)=0 omm x ej tillhör S.
+	Givet är ett alfabet A,
+	en mängd A* av alla finita ord som kan skrivas med A,
+	ett språk S som är en delmängd av A*. Då
+	tillhör S P omm det existerar en algoritm T och ett polynom F så att T ger T(x)=1 om x är ett element ur S och T(x)=0 om x ej är ett element ur S,
+    samt att T ger T(x) på en tid 	$\le$ F(|x|), där |x| betecknar längden av ordet x.
+	S tillhör NP omm det existerar en algoritm T och ett polynom F så att det för alla x existerar ett
+    y så att |y|$\le$F(|x|) och T ger T(x,y)=1 om x år ett element ur S på en tid $\le$ F(|x|) och T
+	ger T(x,y)=0 omm x ej tillhör S. Problemet $P \stackrel{?}{=} NP$ frågar då om alla instanser i NP också är i P.
+    Detta är ett av millenieproblemen och en lösning 
 	
 		
-	En koppling är att $N = NP$  implicerar att det existerar en algoritm T för att räkna ut 		komplexiteten av heltal n som har tidskomplexitet $\le$  $C (\log n)^k$. 
-	nogot om talrepresentation. 
-	En annan koppling är att $N = NP$  implicerar att det inte existerar en talföljd av naturliga tal 
-	$a$ så att $\stackrel{\lim}{x\to\infty} \frac{\C{a}}{\log{a}} \le \frac{3}{\log{3}}$
+	En koppling är att $P = NP$  implicerar att det existerar en algoritm T för att räkna ut komplexiteten av heltal n som har tidskomplexitet $\le$  $C (\log n)^k$. 
+	En annan koppling är att $P = NP$  implicerar att det inte existerar en talföljd av naturliga tal 
+	$a$ så att $\underset{x\to\infty}{\lim} \frac{\C{a}}{\log{a}} \le \frac{3}{\log{3}}$
 	 
 
 
@@ -153,15 +156,13 @@
                     \item primtal
                     \item 2 potenser
                     \item 3 potenser
-                    \item andra potenser
-                    \item triangeltal
-                    \item fibonaccital
+
                 \end{itemize}
             \item Hur kan man bäst generera talen, vad är bästa tidskomplexitet
                 man kan uppnå?
             \item Hur fördelar sig $\frac{\C{n}}{\ln{n}}$?
-            \item Kommer sekvensen ändras om man tillåter fler operationer
-                utöver addition och multiplication?
+            \item (Kommer sekvensen ändras om man tillåter fler operationer
+                utöver addition och multiplication?)
                 \begin{itemize}
                     \item subtraktion 
                     \item exponensiering
@@ -272,8 +273,8 @@
 
     $$3\log_3 n \le \C{n} $$
     $$\frac{\log_3 n}{\C{n}} \le \frac{1}{3}$$
-    $$\frac{\ln n}{\C{n}} \le \frac{1}{3 \cdot \log_3(e)}$$
-    $$ L(n) \le \frac{1}{3 \cdot \log_3(e)} \approx 0.366$$
+    $$\frac{\ln n}{\C{n}} \le \frac{\ln 3}{3}$$
+    $$ L(n) \le \frac{\ln 3}{3} \approx 0.366$$
 
     Den undre gränsen för $\C{n}$ ger alltså en övre gräns för värdet på $L(n)$, och desto närmre
     $\C{n}$ ligger den undre gränsen, desto närmre kommer $\L{n}$ ligga denna övre gräns.
@@ -287,8 +288,8 @@
     Som synes i \cref{normhist} går det relativt bra att anpassa en normalfördelning (den blå kurvan).
     För att undersöka huruvida histogrammets form är permanent och kommer förtydligas vid större intervall,
     eller om det kommer jämnas ut, plottades histogram över två olika intervall, se \cref{redblue}. De båda histogrammen är förvillande
-    lika, men formen är något förskjuten. Faktum är att dalen i det röda intervallet sammanfaller med högsta punkten
-    i det röda. Vad som orsakar att formen blir så här fann vi inget svar på. Formen blir inte mer och mer förskjuten till höger
+    lika, men formen är något förskjuten. Faktum är att dalen i det röda histogrammet sammanfaller med högsta punkten
+    i det blåa. Vad som orsakar att formen blir så här fann vi inget svar på. Formen blir inte mer och mer förskjuten till höger
     då den övre gränsen blir högre, som \cref{redblue} skulle kunna antyda. Istället varierar positionen fram och tillbaka, utan
     något uppenbart mönster.
 
