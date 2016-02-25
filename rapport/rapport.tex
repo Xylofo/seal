@@ -40,6 +40,7 @@
 % \newcommand{\C}[1]{\Vert #1 \Vert}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\C}[1]{\mathfrak C \left( #1 \right)}
+\newcommand{\FIX}[1]{{\color{red} \bf #1}}
 \renewcommand{\O}{\mathcal {O}}
 \def\lc{\left\lceil}   
 \def\rc{\right\rceil}
@@ -74,11 +75,11 @@
 \maketitle
 \selectlanguage{english}
 \begin{abstract}
-    In this report we will study the complexity of N. 
+    In this report we will study the complexity of the natural numbers. 
     The first part of the report discusses and presents proofs and illustrations for the bounds of functions
     concerning integer complexity.
-    The report also presents investigations on specific groups of integers, such as prime numbers and
-    powers of 3, presenting narrower bounds and or explicit formulas.
+    The report also investigates specific groups of integers, such as prime numbers and
+    powers of 3, presenting narrower bounds and explicit formulas.
     Finally the report explains several algorithms, of varying intricacy and efficiency, for finding integer
     complexity.
     
@@ -89,11 +90,13 @@
 \newpage
 
 \section{Inledning}
+    
+    \FIX{BRÖDTEXT!!!!}
 
     \begin{definition}
-       Vi benämner komplexiteten av ett positivt heltal $n$ som det minimala
+       Vi definierar komplexiteten av ett positivt heltal $n$ som det minimala
        antalet $1$:or som krävs för att skriva $n$ med hjälp av addition,
-       subtraktion och parenteser. Vi låter även $\C{n}$ beteckna komplexiteten av
+       subtraktion och parenteser. Vi låter $\C{n}$ beteckna komplexiteten av
        $n$. 
     \end{definition}
     \begin{center}
@@ -115,13 +118,19 @@
     \hline
     \end{tabular}
 \end{center}
+    Notera att den minimala representationen inte nödvändigtvis är unik.
+    Exempelvis kan 4 även skrivas som $(1+1)(1+1)$. Vi kan direkt inse att $\C{n} \le n$
+    eftersom man alltid kan använda den triviala representationen med endast addition.
 
 	  \subsection{Motivation}
 	
 	Frågor om storleken på heltalens komplexitet har ofta enkla formuleringar som är enkla att 	förstå utan en matematisk utbildning.
-    Svaren på frågorna verkar betydligt svårare och kan ge insikt i ett antal andra frågor.	
+    Svaren på frågorna verkar dock vara betydligt svårare och kan ge insikt i ett antal andra frågor.	
 	
 	\subsubsection{Ett exempel}
+
+    \FIX{FLYTTA MILLENIEPROBLEMEN UPP (EV ÄVEN REFERENS)}
+
 	Tidskomplexiteten för att räkna ut komplexiteten av ett 
 	givet heltal är kopplat till problemet $P \stackrel{?}{=} NP$.
 	
@@ -134,19 +143,16 @@
 	S tillhör NP omm det existerar en algoritm T och ett polynom F så att det för alla x existerar ett
     y så att |y|$\le$F(|x|) och T ger T(x,y)=1 om x år ett element ur S på en tid $\le$ F(|x|) och T
 	ger T(x,y)=0 omm x ej tillhör S. Problemet $P \stackrel{?}{=} NP$ frågar då om alla instanser i NP också är i P.
-    Detta är ett av millenieproblemen och en lösning 
+    Detta är ett av millenieproblemen och ett av de viktigaste olösta problemen inom datalogin idag.
 	
-		
+	\FIX{SE ÖVER DETTA!} \\
 	En koppling är att $P = NP$  implicerar att det existerar en algoritm T för att räkna ut komplexiteten av heltal n som har tidskomplexitet $\le$  $C (\log n)^k$. 
 	En annan koppling är att $P = NP$  implicerar att det inte existerar en talföljd av naturliga tal 
-	$a$ så att $\underset{x\to\infty}{\lim} \frac{\C{a}}{\log{a}} \le \frac{3}{\log{3}}$
+	$a_i$ så att $\underset{i\to\infty}{\lim} \frac{\C{a_i}}{\ln{a_i}} \le \frac{3}{\ln{3}}$
 	 
 
-
-    \subsection{Bakgrund}
-
     \subsection{Frågeställningar}
-        
+        \FIX{BRÖDTEXT}
         \begin{itemize}
             \item Finns det övre och undre gränser och hur tajta är dessa?
             \item Kan man få tajtare gränser för specifika tal, alternativt få
@@ -161,20 +167,20 @@
             \item Hur kan man bäst generera talen, vad är bästa tidskomplexitet
                 man kan uppnå?
             \item Hur fördelar sig $\frac{\C{n}}{\ln{n}}$?
-            \item (Kommer sekvensen ändras om man tillåter fler operationer
-                utöver addition och multiplication?)
-                \begin{itemize}
-                    \item subtraktion 
-                    \item exponensiering
-                \end{itemize}
+        %    \item (Kommer sekvensen ändras om man tillåter fler operationer
+        %        utöver addition och multiplication?)
+        %        \begin{itemize}
+        %            \item subtraktion 
+        %            \item exponensiering
+        %        \end{itemize}
         \end{itemize}
 
 
 \section{Analys}
-
+    \FIX{BRÖD + TITEL}
     \subsection{Övre gräns}
     \label{ovregrans}
-
+    \FIX{MER BRÖD} \\
     I detta avsnitt presenterar vi den övre gränsen upptäckt av J. Arias de
     Reyna~\cite{spansk}.,
     \begin{definition}
@@ -206,7 +212,7 @@
         $$A(k+1) = 1 + A(k) = 1+2+A\left(\frac{k}{2}\right) \le 3 + 3 \log_2\frac{k}{2}$$
         Genom att använda identiteten \,$\log \frac{a}{b}=\log a -\log b$\, fås:
         $$ 3 + 3 \log_2\frac{k}{2} = 3 + 3\log_2 k - 3\log_2 2 = 3\log_2 k < 3\log_2 (k+1)$$
-        Vilket ger att $A(k+1)\le 3\log_2 (k+1)$ om $k+1$ är ett primtal.
+        vilket ger att $A(k+1)\le 3\log_2 (k+1)$ om $k+1$ är ett primtal.
 
         Om $k+1$ är sammansatt kan vi skriva $k+1 = ab$ för heltal $a,b \ge 2$.
         Vi får då enligt induktionsantagandet:
@@ -222,7 +228,7 @@
     \subsection{Undre gräns}
     \label{undregrans}
 
-    Att bevisa en stark undre gräns till $\C{n}$ är något svårare.
+    Att bevisa en bra undre gräns till $\C{n}$ är något svårare.
     Idén är att man låter $E(m)$ vara det största heltalet som har komplexitet $m$.
     Detta betyder att $\C{E(m)} = m$ och att för alla $k > E(m)$ så är $\C{k}>m$.
     Med induktion kan man bevisa den slutna formeln (för $n>1$):
@@ -244,7 +250,7 @@
        får man enkelt fram att lemmat gäller genom induktion.
     \end{proof}
 
-    Eftersom $B(n)\le\C{n}$ följer av lemmat således att $\C{n}\ge 3\log_3 $ vilket är
+    Eftersom $B(n)\le\C{n}$ följer av lemmat således att $\C{n}\ge 3\log_3 n$ vilket är
     den bästa kända undre gränsen för $\C{n}$.
 
     \subsection{Gränserna}
@@ -293,7 +299,7 @@
     då den övre gränsen blir högre, som \cref{redblue} skulle kunna antyda. Istället varierar positionen fram och tillbaka, utan
     något uppenbart mönster.
 
-
+    \FIX{ÄNDRA FÄRG PÅ REDBLUE}
     \begin{figure}[H]
         \includegraphics[width=\textwidth]{grafer/redblue}
         \caption{Histogram över $\frac{\ln(n)}{\C{n}}$. I blått $n\le10^7$ och rött $n\le5\protect\cdot10^6$}
@@ -301,7 +307,8 @@
     \end{figure}
 
     \subsection{Speciella typer av tal}
-    Då ingen explicit formel för $\C{n}$ har funnits, finns ett intresse i att undersöka huruvida
+    \FIX{LÄGG TILL EXEMPEL + BRÖD} \\
+    Då ingen explicit formel för $\C{n}$ har hittats, finns ett intresse i att undersöka huruvida
     samband existerar för specifika typer av tal. 
         \subsubsection{Kvadrattal}
         \begin{hypot}
@@ -332,7 +339,7 @@
             således bevisad.
 
             Mer generellt gäller att $\C{3^k}=3k, \C{2\cdot3^k}=3k+2 \text{ och
-            } \C{4\cdot3^k} = 3k+4$. Detta följer av funktionenerna $E$ och $B$ som
+            } \C{4\cdot3^k} = 3k+4$. Detta blir tydligt då man betraktar funktionerna $E$ och $B$ som
             definierades i \cref{undregrans}. 
         \end{hypot}
          \subsubsection{2-potenser}
@@ -351,8 +358,9 @@
 
 
 \section{Algoritmer för att generera sekvensen}
-
-    För att generera data att undersöka söks en algoritm för att beräkna
+    
+    \FIX{MEEER BRÖÖD} \\
+    Vi söker en algoritm för att beräkna
     komplexiteten $\C{n}$ för ett tal.
 
     \subsection{En enkel algoritm}
@@ -361,15 +369,15 @@
     sista operationen vara?  Det är ju givet att representationen antingen kommer
     kunna sammanfattas som $n = a\cdot b$ eller $n = a+b$. Vi vill därför finna både rätt operation, och de två tal operationen ska
     utföras på. För att beräkna vilket som blir effektivast, behöver vi veta hur komplexiteten för alla de tal vi har som alternativ.
-    Detta kan vi alltså lösa rekursivt och då vi kan anta att $a,b<n$ vet vi att
-    algoritmen till slut kommer att komma till det basfallet $\C{1}=1$.
+    Detta kan vi lösa rekursivt och då vi kan anta att $a,b<n$ vet vi att
+    algoritmen till slut kommer att komma till basfallet $\C{1}=1$.
     Vi utnyttjar alltså:
     $$\C{n} = \min\Big[ \min_{1 \le k < n} \C{k}+\C{n-k}, \min_{k|n,1\le k}
     \C{k} + \C{\frac{n}{k}} \Big]$$
 
     En liten optimering är att för summan kommer vi behandla vissa fall dubbelt
     (både $k=t$ och $k=n-t$ ger samma resultat) så det räcker i algoritmen att
-    endast behandla $k\le\floor{\frac{n}{2}}$. Liknande för multiplikationen
+    endast behandla $k\le\floor{\frac{n}{2}}$. På liknande sätt för multiplikation
     ser vi att $k=t$ och $k=\frac{n}{t}$ ger samma resultat så det räcker att
     behandla $k\le\floor{\sqrt{n}}$.
         
@@ -416,8 +424,7 @@
     Vi låter för enkelhetens skull $v[n]=odefinerat$ från början. Förutom detta
     är algoritmen lika som den förra.
 
-    Dessutom kan man göra algoritmen iterativ (dvs. att den inte är
-    rekursiv) då det räcker att veta värdena på $v[k]$ för alla $k<n$ när
+    Dessutom kan man göra algoritmen iterativ (dvs. inte rekursiv) då det räcker att veta värdena på $v[k]$ för alla $k<n$ när
     man ska räkna ut $v[n]=\C{n}$. Vi fyller alltså upp listan $v$ i ordning.
 
 
@@ -454,9 +461,9 @@
     Att algoritmen nu är iterativ gör ingen skillnad i tidskomplexitet, men gör
     den i praktiken snabbare samt gör den något enklare att analysera.
 
-    Denna procedur har en loop med två loopar inuti. Detta gör att en beräkning av
-    $\C{n}$ tar proportionerligt mot $n\left(\frac{n}{2}+\sqrt n\right) =
-    \frac{n^2}{2} + n\sqrt n$ tid.
+    Denna procedur har en loop med två loopar inuti. Detta gör att tiden för beräkningen av
+    $\C{n}$ är proportionell mot $n\left(\frac{n}{2}+\sqrt n\right) =
+    \frac{n^2}{2} + n\sqrt n$.
     Eftersom vi räknar asymptotiskt spelar varken långsammare växande termer eller
     konstantfaktorer roll,  vilket innebär att algoritmen får tidskomplexiteten
     $\O(n^2)$.
@@ -466,7 +473,7 @@
     Den begränsande komplexiteten tidigare, var den hos loopen som kontrollerar
     den bästa möjliga summeringen. Denna gick från 1 till $\floor{n/2}$. Vi
     söker nu ett nytt, mindre $kMax$, sådant att:
-    $$\min_{1 \leq k \leq \floor{n/2}} \C{k} + \C{n-k} = \min_{1 \leq k \leq kMax} \C{k} + \C{n-k}$$
+    $$\min_{1 \leq k \leq \floor{n/2}}\bigg[\,\C{k} + \C{n-k} \,\bigg] = \min_{1 \leq k \leq kMax}\bigg[\, \C{k} + \C{n-k}\,\bigg]$$
 
     Vi låter då $kMax_n$ vara ett sådant $kMax$ för ett specifikt $n$ (Inte
     nödvändigtvis det minsta möjliga, men ett tillräckligt bra för att få ner
@@ -510,11 +517,11 @@
 
 
     \subsubsection{Funktionen kMax}
-    Denna algoritm beräknar, med hjälp av $E$, tidigare nämna $kMax_n$. 
+    Denna algoritm beräknar, med hjälp av $E$, tidigare nämnda $kMax_n$. 
     Notera att funktionen kräver att $\C{n-1}$ redan beräknats.
 
     \begin{algorithm}[H]
-        \caption{$\O$}
+        \caption{Funktionen $kMax$}
         \begin{algorithmic}[1]
             \Procedure{kMax}{$n$}\Comment{Returnerar $kMax_n$}
                \State $target \gets C[n-1] $
@@ -529,21 +536,20 @@
     
     Komplexiteten av denna funktion är enkel att härleda.
     Vi ser att $t\le3\log_2(n-1) = \O(\log n)$. I varje steg av
-    \textbf{while}-loopen kommer $t$ minska, så denna loop gås maximalt igenom
-    $t$ gånger. Varje iteration av loopen anropas även $E$, som tar $\O(\log n)$
+    \textbf{while}-loopen kommer $t$ minska, så denna loop genomförs maximalt
+    $t$ gånger. I varje iteration av loopen anropas även $E$, som tar $\O(\log n)$
     tid. Totala tidskomplexiteten är alltså $\O(t\log n) = \O(log^2 n)$.
 
     Vi börjar med att visa att detta $kMax_n$ uppfyller villkoret att.
-    $$\min_{1 \leq k \leq \floor{n/2}} \C{k} + \C{n-k} = \min_{1 \leq k \leq
-    kMax_n} \C{k} + \C{n-k}$$
+    $$\min_{1 \leq k \leq \floor{n/2}}\bigg[\,\C{k} + \C{n-k} \,\bigg] = \min_{1 \leq k \leq kMax_n}\bigg[\, \C{k} + \C{n-k}\,\bigg]$$
     Beviset följer det bevis som presenteras i \cite{algorithm_lune}.
     \begin{proof}
         Antag motsatsen, dvs. att det existerar ett $k_0$ så att:
-        $$\C{k_0} + \C{n-k_0} < \min_{1 \leq k \leq kMax_n} \C{k} + \C{n-k}$$
+        $$\C{k_0} + \C{n-k_0} < \min_{1 \leq k \leq kMax_n}\bigg[\, \C{k} + \C{n-k} \,\bigg]$$
         där både $k_0$ och $n-k_0$ är större än $kMax_n$.
         Alltså vet vi att:
         \begin{align*}
-            \C{k_0} + \C{n-k_0} &< \min_{1 \leq k \leq kMax_n} \C{k} + \C{n-k} \\
+            \C{k_0} + \C{n-k_0} &< \min_{1 \leq k \leq kMax_n}\bigg[\, \C{k} + \C{n-k}\,\bigg] \\
             \C{k_0} + \C{n-k_0} &< \C{1} + \C{n-1} \\
             \C{k_0} + \C{n-k_0} &\le \C{n-1} \quad (*)
         \end{align*}
@@ -600,9 +606,9 @@
         till $\O(n \log(n) \log(\log(n)))$ (samma tidskomplexitet som den välkända
         Eratosthenes såll då den fungerar i stort sätt på samma sätt).
 
-        Totalt kommer alltså tidskomplexiteten vara $\O(n\cdot kMax_n +
-        n\log(n)\log(\log(n))) = \O(n^{\beta+1}) \approx \O(n^{1.585})$. Dock
-        kommer det i de flesta fall vara så att $kMax_n \ll 2n^\beta$. Detta gör
+        Totalt kommer alltså tidskomplexiteten vara:
+        $$\O(n\cdot kMax_n +n\log(n)\log(\log(n))) = \O(n^{\beta+1}) \approx \O(n^{1.585})$$
+        Dock kommer det i de flesta fall vara så att $kMax_n \ll 2n^\beta$. Detta gör
         det möjligt att bevisa den starkare övre gränsen på $\O(n^\alpha)$ där
         $\alpha\approx 1.230175$\,\,\cite{algorithm_lune}. Denna gräns på
         $\alpha$ är dock inte nödvändigtvis den minsta möjliga.
@@ -633,12 +639,12 @@
 
     \subsection{Fler algoritmer och diskussion}
      
-        Av de algoritmer som beskrivs, finns en stor variation i kvalitet och
-        användbarhet. Den första är den enklaste möjliga algoritmen för
+        Av de algoritmer som beskrivs finns en stor variation i kvalitet och
+        användbarhet. Den första är den enklast möjliga algoritmen för
         beräkning av $\C{n}$, men praktiskt relativt oanvändbar. Till
         $\O(n^2)$-algoritmen är steget inte långt, då dynamisk programmering får
         anses vara en standardmetod, ändock är vinsten i tid enorm.  Den mest
-        optimerade algoritm som finns för tillfället, är Fuller's algoritm, som
+        optimerade algoritm som finns för tillfället är Fullers algoritm, som
         även den beskrivs i \cite{algorithm_lune}.  Algoritmen har samma
         tidskomplexitet som algoritmen som beskrivs ovan, men bättre
         minneskomplexitet. Detta gör den mer praktiskt användbar då det som
@@ -648,9 +654,13 @@
         med Fullers algoritm är att endast spara vissa delar av $C[\cdot]$ vid
         varje tidpunkt i minnet. Vilka delar som behöver sparas är ett relativt
         svårt problem vilket är anledningen till att algoritmen inte förklaras
-        här. Denna algoritm är den som är använd för att kunna undersöka
-        egenskaper av $\C{n}$, exempelvis dess invers, hur tajta gränserna är
-        och hitta motexempel till hypoteser.
+        här.
+
+        \FIX{FORMULERA OM; FÖRKLARA VAD INVERSEN INNEBÄR OSV
+
+        Denna algoritm är den som är använd för att kunna undersöka
+        egenskaper hos $\C{n}$, exempelvis dess invers, hur tajta gränserna är
+        och hitta motexempel till hypoteser.}
 
         Som en sammanfattning listas nedan en tabell över de olika algoritmerna 
         med respektive tidskomplexitet och minneskomplexitet.
@@ -693,14 +703,20 @@
         
         Att ha en snabbare algoritm än de kvadratiska är alltså en stor fördel
         (man tillåts beräkna betydligt större värden av $\C{n}$). Sekvensen har
-        som tidigare nämnt några oväntade användningsområden (även om de inte är
-        särskilt stora). Att studera algoritmer för att lösa detta problem visar
+        som tidigare nämnts några oväntade användningsområden (även om de inte är
+        särskilt stora).
+
+
+        \FIX{OMFORMULERA NEDAN:}
+
+
+        Att studera algoritmer för att lösa detta problem visar
         även på några vanliga tekniker som används i många andra sammanhang;
         exempelvis dynamisk programmering och reducering av sökrum (\emph{search
         space reduction}, dvs. när man kan bortse från vissa möjligheter för att
         få en snabbare algoritm). Många andra problem inom talteorin är nära
-        relaterade till heltalskomplexiteten, bland annat delbarhet och primtals
-        såll. Att finna nya strategier inom detta problem kan alltså även ge
+        relaterade till heltalskomplexiteten, bland annat delbarhet och primtalssåll.
+        Att finna nya strategier för dessa problem kan alltså även ge
         insikter om hur man kan konstruera snabbare algoritmer för relaterade
         problem som är betydelsefulla inom både matematik, kryptografi och
         datavetenskap. 
@@ -708,6 +724,8 @@
         Detta problem är ännu öppet och Fullers algoritm uppfanns
         så sent som 2008, så det finns goda chanser att det kommer komma
         effektivare algoritmer för att lösa detta problem i framtiden.
+
+        \FIX{SKRIV MER OM FRAMTIDA FRÅGOR ETC}
 
 \newpage
 \begin{thebibliography}{9}
