@@ -129,7 +129,6 @@
 	
 	\subsubsection{Ett exempel}
 
-    \FIX{FLYTTA MILLENIEPROBLEMEN UPP (EV ÄVEN REFERENS)}
 
 	Clay Mathematical Institute tillkännagav år 2000 en prispott på 7 miljoner amerikanska dollar 	för lösningar till 7 olösta problem, 1 miljon vardera. Ett av dessa viktiga problem är $P \stackrel{?}{=} NP$, ett av de viktigaste olösta problemen inom datalogin idag.
 
@@ -156,9 +155,14 @@
 	 
 
     \subsection{Frågeställningar}
-        \FIX{BRÖDTEXT}
-        \begin{itemize}
+            Trots att definitionen av $\C{n}$ är så pass enkel finns det många
+            frågor som kan ställas kring den. Frågeställningarna är av
+            varierande svårighet, där vissa undersökts mycket men ännu är olösta, medan
+            andra är helt outforskade.
+             I denna rapport behandlas följande frågeställningar.
+            \begin{itemize}
             \item Finns det övre och undre gränser och hur tajta är dessa?
+            \item Hur fördelar sig $\frac{\C{n}}{\ln{n}}$?
             \item Kan man få tajtare gränser för specifika tal, alternativt få
                 en explicit formel?
                 \begin{itemize}
@@ -170,7 +174,6 @@
                 \end{itemize}
             \item Hur kan man bäst generera talen, vad är bästa tidskomplexitet
                 man kan uppnå?
-            \item Hur fördelar sig $\frac{\C{n}}{\ln{n}}$?
         %    \item (Kommer sekvensen ändras om man tillåter fler operationer
         %        utöver addition och multiplication?)
         %        \begin{itemize}
@@ -180,16 +183,17 @@
         \end{itemize}
 
 
-\section{Analys av funktionens gränser}
-    \FIX{Gjorde mitt bästa med brödet här, se om det ok ut}
-
+\section{Analys \FIX{titel}}
+    Vid undersökning av funktioner är en intressant fråga ofta om det går att finna någon övre eller undre gräns.
+    Som vi ska se i senare avsnitt kan gränserna användas för att konstruera snabbare algoritmer. 
     I detta avsnitt presenteras de övre och undre gränser som redan upptäckts,
-    samt bevis för dessa.
+    samt bevis för dessa. Vidare undersöks gränserna genom att funktionen $ L(n) = \frac{\ln(n)}{\C{n}}$ introduceras.
+    Slutligen beskrivs några hypoteser kring specifika typer av tal. 
+
     \subsection{Övre gräns}
     \label{ovregrans}
-    \FIX{Gjorde mitt bästa med brödet här, se om det ok ut}\\
     Den hittills bästa övre gränsen upptäcktes av J. Arias de
-    Reyna och presenteras i ~\cite{spansk}.
+    Reyna~\cite{spansk}.
     Nedan presenteras ett bevis för denna.
     \begin{definition}
         Vi definierar funktionen $A:\N\to\N$ på följande sätt:
