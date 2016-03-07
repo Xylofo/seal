@@ -148,9 +148,11 @@
 	givet heltal är kopplat till problemet $P \stackrel{?}{=} NP$.
     
 	\FIX{SE ÖVER DETTA!} \\
-	En koppling är att $P = NP$  implicerar att det existerar en algoritm T för att räkna ut komplexiteten av heltal n som har tidskomplexitet $\le$  $C (\log n)^k$. 
-	En annan koppling är att $P = NP$  implicerar att det inte existerar en talföljd av naturliga tal 
-	$a_i$ så att $\underset{i\to\infty}{\lim} \frac{\C{a_i}}{\ln{a_i}} \le \frac{3}{\ln{3}}$
+    En koppling är att $P = NP$  implicerar att det existerar en algoritm för
+    att räkna ut $\C{n}$ som har tidskomplexitet $\O(\log^k n)$ 
+    för någon konstant $k$. Omvändningen gäller dock inte, d.v.s.\
+    att om man hittar en algoritm som har tillräckligt låg tidskomplexitet
+    betyder det inte nödvändigtvis att $P=NP$.
 	 
 
     \subsection{Frågeställningar}
@@ -358,7 +360,15 @@
             Dock har hypotesen varken verifierats eller motbevisats.
             Hypotesen gäller för alla $k\le29$ (kontrollerat numeriskt). Trots
             detta menar Arias de Reyna att det antagligen inte gäller för
-            godtyckligt stora $k$ \cite{ospansk}.
+            godtyckligt stora $k$ \cite{ospansk}. En motivering till detta är
+            att man har hittat alternativa representationer för $27\le k \le 29$
+            med lika få ettor. Exempelvis kan man skriva
+            \begin{align*}
+                2^{27} &= (1+1)^{27} \\
+                     &=  1+(1+(1+1)(1+1+1))(1+(1+1)^3+(1+1+1)^2)\\
+                     &\phantom= \cdot(1+(1+1)^9(1+1+1)^3(1+(1+1)(1+1+1)^2))
+            \end{align*}
+            \noindent vilket också innehåller exakt 54 st ettor.
         \end{hypot}
 
 
@@ -712,11 +722,7 @@
         som tidigare nämnts några oväntade användningsområden (även om de inte är
         särskilt stora).
 
-
-        \FIX{OMFORMULERA NEDAN:}
-
-
-        Att studera algoritmer för att lösa detta problem visar
+        Att studera algoritmer för att generera värden för $\C{n}$ visar
         även på några vanliga tekniker som används i många andra sammanhang;
         exempelvis dynamisk programmering och reducering av sökrum (\emph{search
         space reduction}, dvs. när man kan bortse från vissa möjligheter för att
@@ -727,11 +733,26 @@
         problem som är betydelsefulla inom både matematik, kryptografi och
         datavetenskap. 
 
-        Detta problem är ännu öppet och Fullers algoritm uppfanns
-        så sent som 2008, så det finns goda chanser att det kommer komma
-        effektivare algoritmer för att lösa detta problem i framtiden.
+        När det kommer till att spara information på begränsat minne är idag det
+        binära talsystemet det populäraste. Andra talbaser använder
+        asymptotiskt lika mycket minne för lika stora tal, d.v.s.\ om man sparar
+        ett tal $n$ i bas $b$ behövs $b\log_b n = \O(\log n)$ minne. Då $\C{n} =
+        \O(\log n)$ är det alltså asymptotiskt lika bra att spara tal som en
+        representation av ettor, additioner och multiplikationer. Dock är det
+        opraktiskt då det (ännu) inte finns några bra algoritmer för att utföra
+        aritmetik med denna representations av tal.
 
-        \FIX{SKRIV MER OM FRAMTIDA FRÅGOR ETC}
+        Många frågor om $\C{n}$ är ännu öppna. Fullers algoritm uppfanns
+        så sent som 2008, så det finns goda chanser att det kommer komma
+        effektivare algoritmer för att lösa detta problem i framtiden. 
+        
+        Dessutom finns det många relaterade funktioner, exempelvis om man tillåter
+        fler operatorer som subtraktion och exponentiering. Frågor som man kan
+        ställa sig om dessa funktioner är om man någonsin vill använda
+        subtraktion och om att lägga till nya operatorer ändrar den
+        asymptotiska hastigheten som funktionerna växer med.
+        Att tillåta användandet av fler siffror (som 2:or) ger också helt nya
+        funktioner med liknande egenskaper. 
 
 \newpage
 \begin{thebibliography}{9}
