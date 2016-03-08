@@ -317,7 +317,6 @@
     \end{figure}
 
     \subsection{Speciella typer av tal}
-    \FIX{LÄGG TILL EXEMPEL + BRÖD} \\
     Då ingen explicit formel för $\C{n}$ har hittats, finns ett intresse i att undersöka huruvida
     samband existerar för specifika typer av tal. 
         \subsubsection{Kvadrattal}
@@ -335,11 +334,13 @@
         \subsubsection{Primtal}
         \begin{hypot}
             $\C{p}=\C{p-1}+1$ \quad för alla primtal $p$ \\
-            Detta är något som troddes vara sant väldigt länge. Matematikern
-            Richard Guy inkluderade denna frågeställning i sin bok \cite{guy}.
+            Detta är något som troddes vara sant väldigt länge. För små primtal
+            är exempelvis $7 = 1 + (1+1)(1+1+1)$ och $11 = 1 +
+            (1+1+1+1+1)(1+1)$ de minimala representationerna.
+            Matematikern Richard Guy inkluderade denna frågeställning i sin bok \cite{guy}.
             Med hjälp av de betydligt snabbare algoritmerna kunde man dock finna
             det minsta motexemplet $p = \num{353942783}$ för vilket $\C{p} = 63
-            < 64 = \C{p-1}+1$. \cite{ospansk}
+            < 64 = \C{p-1}+1$ \cite{ospansk}.
         \end{hypot}
 
         \subsubsection{3-potenser}
@@ -361,7 +362,7 @@
         \begin{hypot}
             $\C{2^k}=2k$ \quad för alla $k\ge1$ \\
             Även denna fråga formulerades i Guys bok \cite{guy}, men frågades
-            först av Selfrige.
+            först av Selfridge.
             Det är återigen tydligt att $\C{2^k} \le 2k$:
             $$ 2^k = \underbrace{(1+1)(1+1)\ldots(1+1)}_{k \text{ st } (1+1) \text{ grupper}}$$
             Dock har hypotesen varken verifierats eller motbevisats.
