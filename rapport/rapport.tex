@@ -91,8 +91,6 @@
 
 \section{Inledning}
     
-    \FIX{BRÖDTEXT!!!!}
-
     \begin{definition}
        Vi definierar komplexiteten av ett positivt heltal $n$ som det minimala
        antalet $1$:or som krävs för att skriva $n$ med hjälp av addition,
@@ -325,7 +323,12 @@
         \subsubsection{Kvadrattal}
         \begin{hypot}
             $\C{n^2}=2\cdot\C{n}$ \quad för alla $n\ge1$ \\
-            Denna hypotes bevisas falsk genom motexemplet $n=5^4$ vilket ger $\C{n}=20$
+            En annan formulering är att alla kvadrattal n bäst skrivs som representationen av $\sqrt{n}$
+            multiplicerad med sig själv.
+            Om man endast undersökt de mindre kvadrattalen är det lätt att tänka sig att
+            detta vore sant. Ta till exempel $4 = (1+1)(1+1)$ eller $9 = (1+1+1)(1+1+1)$.
+            Även för något större tal ser man samma mönster: $\C{144} = 14 = 2\cdot \C{12}$.
+            Denna hypotes bevisas dock falsk genom motexemplet $n=5^4$ vilket ger $\C{n}=20$
             och $\C{n^2}=39<40=2\cdot\C{n}$.
         \end{hypot}
 
